@@ -3,6 +3,42 @@
 ## Project Overview
 Valentine's Day website built with Astro + React + Tailwind + Framer Motion.
 
+## Agent Execution Strategy
+
+### Parallelism Rules
+- **ALWAYS use parallel agents** when tasks are independent (no shared state/files)
+- Launch multiple Task agents in a single message when possible
+- Examples of parallelizable work:
+  - Creating multiple independent components simultaneously
+  - Setting up config files that don't depend on each other
+  - Writing tests for different modules
+  - Creating multiple page scaffolds
+
+### Single Feature Steps
+- Complete one verifiable feature at a time
+- Each step should be testable by the user before proceeding
+- Order of implementation:
+  1. Project setup (Astro + deps)
+  2. Password gate page (entry experience)
+  3. Letter reveal page (heart animation + letter)
+  4. Navigation component
+  5. Photo gallery page
+  6. Timeline page
+  7. Love notes page
+  8. Itinerary page
+  9. Music player + countdown
+
+### Verification Points
+After each feature, user should be able to:
+- Run `npm run dev`
+- See the feature working in browser
+- Approve before moving to next feature
+
+### Context Management
+- **Run bash commands via Task agents** (subagent_type: Bash) to avoid clogging main context
+- Use background agents for long-running commands (npm install, builds)
+- Only use direct Bash tool for quick, essential commands (git status, etc.)
+
 ## Code Quality Standards
 
 ### TypeScript

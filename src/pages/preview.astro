@@ -1,0 +1,220 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Design Preview">
+  <main class="min-h-screen bg-cream p-8">
+    <h1 class="text-4xl text-text-dark mb-12 text-center" style="font-family: Georgia, serif;">
+      Design Options Preview
+    </h1>
+
+    <!-- Font Pairings Section -->
+    <section class="mb-16">
+      <h2 class="text-2xl text-text-dark mb-8 text-center border-b-2 border-pink-soft pb-4" style="font-family: Georgia, serif;">
+        Font Pairings
+      </h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl mx-auto">
+
+        <!-- Option 1: Playfair + Lora -->
+        <div class="bg-white p-8 rounded-lg shadow-lg border-2 border-transparent hover:border-pink-soft transition-colors">
+          <div class="text-sm text-text-dark/60 mb-4 font-mono">Option 1: Playfair Display + Lora</div>
+          <h3 class="text-4xl mb-4 text-text-dark" style="font-family: 'Playfair Display', serif;">
+            My Dearest Dhanushikka
+          </h3>
+          <p class="text-lg text-text-dark/80 leading-relaxed" style="font-family: 'Lora', serif;">
+            Every moment with you feels like a beautiful dream. Your smile lights up my world in ways words cannot describe. I am so grateful for your love.
+          </p>
+          <div class="mt-4 text-pink-soft/80 italic" style="font-family: 'Lora', serif;">
+            — Forever yours, Fagun
+          </div>
+        </div>
+
+        <!-- Option 2: Cormorant + Josefin -->
+        <div class="bg-white p-8 rounded-lg shadow-lg border-2 border-transparent hover:border-pink-soft transition-colors">
+          <div class="text-sm text-text-dark/60 mb-4 font-mono">Option 2: Cormorant Garamond + Josefin Sans</div>
+          <h3 class="text-4xl mb-4 text-text-dark" style="font-family: 'Cormorant Garamond', serif;">
+            My Dearest Dhanushikka
+          </h3>
+          <p class="text-lg text-text-dark/80 leading-relaxed" style="font-family: 'Josefin Sans', sans-serif;">
+            Every moment with you feels like a beautiful dream. Your smile lights up my world in ways words cannot describe. I am so grateful for your love.
+          </p>
+          <div class="mt-4 text-pink-soft/80 italic" style="font-family: 'Josefin Sans', sans-serif;">
+            — Forever yours, Fagun
+          </div>
+        </div>
+
+        <!-- Option 3: Italiana + Raleway -->
+        <div class="bg-white p-8 rounded-lg shadow-lg border-2 border-transparent hover:border-pink-soft transition-colors">
+          <div class="text-sm text-text-dark/60 mb-4 font-mono">Option 3: Italiana + Raleway</div>
+          <h3 class="text-4xl mb-4 text-text-dark" style="font-family: 'Italiana', serif;">
+            My Dearest Dhanushikka
+          </h3>
+          <p class="text-lg text-text-dark/80 leading-relaxed" style="font-family: 'Raleway', sans-serif;">
+            Every moment with you feels like a beautiful dream. Your smile lights up my world in ways words cannot describe. I am so grateful for your love.
+          </p>
+          <div class="mt-4 text-pink-soft/80 italic" style="font-family: 'Raleway', sans-serif;">
+            — Forever yours, Fagun
+          </div>
+        </div>
+
+        <!-- Option 4: Spectral + Source Sans -->
+        <div class="bg-white p-8 rounded-lg shadow-lg border-2 border-transparent hover:border-pink-soft transition-colors">
+          <div class="text-sm text-text-dark/60 mb-4 font-mono">Option 4: Spectral + Source Sans 3</div>
+          <h3 class="text-4xl mb-4 text-text-dark" style="font-family: 'Spectral', serif;">
+            My Dearest Dhanushikka
+          </h3>
+          <p class="text-lg text-text-dark/80 leading-relaxed" style="font-family: 'Source Sans 3', sans-serif;">
+            Every moment with you feels like a beautiful dream. Your smile lights up my world in ways words cannot describe. I am so grateful for your love.
+          </p>
+          <div class="mt-4 text-pink-soft/80 italic" style="font-family: 'Source Sans 3', sans-serif;">
+            — Forever yours, Fagun
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Heart Styles Section -->
+    <section class="mb-16">
+      <h2 class="text-2xl text-text-dark mb-8 text-center border-b-2 border-pink-soft pb-4" style="font-family: Georgia, serif;">
+        Heart Styles
+      </h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto">
+
+        <!-- Hand-drawn SVG hearts -->
+        <div class="bg-white p-8 rounded-lg shadow-lg text-center border-2 border-transparent hover:border-pink-soft transition-colors">
+          <div class="text-sm text-text-dark/60 mb-4 font-mono">1. Hand-drawn</div>
+          <div class="h-32 flex items-center justify-center">
+            <svg viewBox="0 0 100 100" class="w-24 h-24">
+              <path
+                d="M50 88 C20 60, 5 40, 15 25 C25 10, 45 15, 50 30 C55 15, 75 10, 85 25 C95 40, 80 60, 50 88"
+                fill="none"
+                stroke="#FFB5C5"
+                stroke-width="3"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                style="stroke-dasharray: 2 4;"
+              />
+              <path
+                d="M50 85 C22 58, 8 40, 17 27 C27 13, 44 17, 50 32 C56 17, 73 13, 83 27 C92 40, 78 58, 50 85"
+                fill="#FFB5C5"
+                opacity="0.3"
+              />
+            </svg>
+          </div>
+          <p class="text-text-dark/60 text-sm mt-4">Sketchy, illustrated with wobbly lines</p>
+        </div>
+
+        <!-- Watercolor hearts -->
+        <div class="bg-white p-8 rounded-lg shadow-lg text-center border-2 border-transparent hover:border-pink-soft transition-colors">
+          <div class="text-sm text-text-dark/60 mb-4 font-mono">2. Watercolor</div>
+          <div class="h-32 flex items-center justify-center">
+            <svg viewBox="0 0 100 100" class="w-24 h-24">
+              <defs>
+                <radialGradient id="watercolor" cx="50%" cy="50%" r="60%">
+                  <stop offset="0%" stop-color="#FFB5C5" stop-opacity="0.9"/>
+                  <stop offset="40%" stop-color="#FFB5C5" stop-opacity="0.6"/>
+                  <stop offset="70%" stop-color="#E6E6FA" stop-opacity="0.4"/>
+                  <stop offset="100%" stop-color="#E6E6FA" stop-opacity="0.1"/>
+                </radialGradient>
+                <filter id="watercolorTexture">
+                  <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="3" result="noise"/>
+                  <feDisplacementMap in="SourceGraphic" in2="noise" scale="3" xChannelSelector="R" yChannelSelector="G"/>
+                </filter>
+              </defs>
+              <path
+                d="M50 85 C20 55, 5 35, 15 22 C28 8, 45 12, 50 28 C55 12, 72 8, 85 22 C95 35, 80 55, 50 85"
+                fill="url(#watercolor)"
+                filter="url(#watercolorTexture)"
+              />
+            </svg>
+          </div>
+          <p class="text-text-dark/60 text-sm mt-4">Soft painted with gradient bleeds</p>
+        </div>
+
+        <!-- Minimal line art -->
+        <div class="bg-white p-8 rounded-lg shadow-lg text-center border-2 border-transparent hover:border-pink-soft transition-colors">
+          <div class="text-sm text-text-dark/60 mb-4 font-mono">3. Line Art</div>
+          <div class="h-32 flex items-center justify-center">
+            <svg viewBox="0 0 100 100" class="w-24 h-24">
+              <path
+                d="M50 85 C20 55, 5 35, 15 22 C28 8, 45 12, 50 28 C55 12, 72 8, 85 22 C95 35, 80 55, 50 85"
+                fill="none"
+                stroke="#5D4037"
+                stroke-width="1.5"
+                stroke-linecap="round"
+              />
+            </svg>
+          </div>
+          <p class="text-text-dark/60 text-sm mt-4">Single stroke, elegant and clean</p>
+        </div>
+
+        <!-- Paper cutout hearts -->
+        <div class="bg-white p-8 rounded-lg shadow-lg text-center border-2 border-transparent hover:border-pink-soft transition-colors">
+          <div class="text-sm text-text-dark/60 mb-4 font-mono">4. Paper Cutout</div>
+          <div class="h-32 flex items-center justify-center relative">
+            <svg viewBox="0 0 100 100" class="w-24 h-24 absolute" style="transform: translate(4px, 4px);">
+              <path
+                d="M50 85 C20 55, 5 35, 15 22 C28 8, 45 12, 50 28 C55 12, 72 8, 85 22 C95 35, 80 55, 50 85"
+                fill="#5D4037"
+                opacity="0.15"
+              />
+            </svg>
+            <svg viewBox="0 0 100 100" class="w-24 h-24 absolute" style="transform: translate(2px, 2px);">
+              <path
+                d="M50 85 C20 55, 5 35, 15 22 C28 8, 45 12, 50 28 C55 12, 72 8, 85 22 C95 35, 80 55, 50 85"
+                fill="#FFDAB9"
+              />
+            </svg>
+            <svg viewBox="0 0 100 100" class="w-24 h-24 relative">
+              <path
+                d="M50 85 C20 55, 5 35, 15 22 C28 8, 45 12, 50 28 C55 12, 72 8, 85 22 C95 35, 80 55, 50 85"
+                fill="#FFB5C5"
+              />
+            </svg>
+          </div>
+          <p class="text-text-dark/60 text-sm mt-4">Layered paper with shadows</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Preview together -->
+    <section class="max-w-4xl mx-auto bg-white p-8 rounded-lg shadow-lg">
+      <h2 class="text-2xl text-text-dark mb-6 text-center border-b-2 border-pink-soft pb-4" style="font-family: Georgia, serif;">
+        Combined Preview (Envelope + Wax Seal)
+      </h2>
+      <div class="flex justify-center">
+        <div class="relative">
+          <!-- Envelope body -->
+          <div class="w-80 h-52 bg-gradient-to-b from-cream to-peach rounded-lg shadow-lg relative overflow-hidden">
+            <!-- Envelope flap -->
+            <div class="absolute top-0 left-0 right-0 h-24 bg-gradient-to-b from-peach to-pink-soft/30"
+                 style="clip-path: polygon(0 0, 50% 100%, 100% 0);">
+            </div>
+            <!-- Paper texture lines -->
+            <div class="absolute inset-0 opacity-10">
+              <div class="h-full w-full" style="background: repeating-linear-gradient(0deg, transparent, transparent 8px, #5D4037 8px, #5D4037 9px);"></div>
+            </div>
+            <!-- Wax seal -->
+            <div class="absolute top-16 left-1/2 -translate-x-1/2 w-16 h-16 rounded-full bg-gradient-to-br from-red-400 to-red-600 shadow-lg flex items-center justify-center">
+              <svg viewBox="0 0 24 24" class="w-8 h-8 text-red-200">
+                <path fill="currentColor" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+              </svg>
+            </div>
+            <!-- Address text -->
+            <div class="absolute bottom-8 left-1/2 -translate-x-1/2 text-center">
+              <p class="text-text-dark/60 text-sm" style="font-family: 'Cormorant Garamond', serif;">To: My Love</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p class="text-center text-text-dark/60 mt-6" style="font-family: Georgia, serif;">
+        Envelope will open on correct password with soft floating animation
+      </p>
+    </section>
+
+  </main>
+</Layout>
+
+<style is:global>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Lora:ital,wght@0,400;0,600;1,400&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Josefin+Sans:wght@300;400;600&family=Italiana&family=Raleway:ital,wght@0,300;0,400;1,300&family=Spectral:ital,wght@0,400;0,600;1,400&family=Source+Sans+3:ital,wght@0,300;0,400;1,300&display=swap');
+</style>

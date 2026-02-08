@@ -1,0 +1,117 @@
+@import url('https://fonts.googleapis.com/css2?family=Italiana&family=Raleway:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --pink-soft: #FFB5C5;
+  --lavender: #E6E6FA;
+  --mint: #B5EAD7;
+  --peach: #FFDAB9;
+  --cream: #FFF8E7;
+  --text-dark: #5D4037;
+}
+
+body {
+  @apply bg-cream text-text-dark;
+  font-family: 'Raleway', sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6, .font-display {
+  font-family: 'Italiana', serif;
+}
+
+/* Scrapbook paper texture effect */
+.paper-texture {
+  background-image:
+    linear-gradient(90deg, transparent 79px, #abced4 79px, #abced4 81px, transparent 81px),
+    linear-gradient(#eee .1em, transparent .1em);
+  background-size: 100% 1.2em;
+}
+
+/* Old parchment effect for the letter */
+.parchment {
+  background: linear-gradient(
+    to bottom,
+    #f5e6c8 0%,
+    #f0ddb8 50%,
+    #ebd5a8 100%
+  );
+  box-shadow:
+    inset 0 0 50px rgba(139, 90, 43, 0.2),
+    2px 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Polaroid frame style */
+.polaroid {
+  @apply bg-white p-2 pb-12 shadow-lg;
+  transform: rotate(var(--rotation, 0deg));
+}
+
+/* Washi tape decoration */
+.washi-tape {
+  background: repeating-linear-gradient(
+    45deg,
+    var(--tape-color, #FFB5C5),
+    var(--tape-color, #FFB5C5) 10px,
+    transparent 10px,
+    transparent 20px
+  );
+  opacity: 0.8;
+}
+
+/* Sticky note style */
+.sticky-note {
+  @apply p-4 shadow-md;
+  background: linear-gradient(
+    180deg,
+    var(--note-color, #FFDAB9) 0%,
+    var(--note-color, #FFDAB9) 95%,
+    rgba(0,0,0,0.1) 100%
+  );
+  transform: rotate(var(--rotation, 0deg));
+}
+
+/* Heart shape using clip-path */
+.heart-shape {
+  clip-path: path('M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z');
+}
+
+/* Confetti animation keyframes */
+@keyframes confetti-fall {
+  0% {
+    transform: translateY(-100vh) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100vh) rotate(720deg);
+    opacity: 0;
+  }
+}
+
+.confetti {
+  animation: confetti-fall 3s ease-in-out forwards;
+}
+
+/* Shake animation for wrong password */
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+  20%, 40%, 60%, 80% { transform: translateX(5px); }
+}
+
+.shake {
+  animation: shake 0.5s ease-in-out;
+}
+
+/* Respect reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
