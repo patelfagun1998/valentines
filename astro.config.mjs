@@ -3,5 +3,6 @@ import react from '@astrojs/react';
 import tailwind from '@astrojs/tailwind';
 
 export default defineConfig({
+  site: 'https://cha-cha-love.com',
   integrations: [react(), tailwind()],
 });

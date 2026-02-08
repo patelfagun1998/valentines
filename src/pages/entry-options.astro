@@ -1,0 +1,178 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Entry Design Options">
+  <main class="min-h-screen bg-gradient-to-br from-lavender/50 via-pink-soft/30 to-peach/50 p-8">
+    <h1 class="text-3xl font-display text-text-dark mb-8 text-center">
+      Entry Design Options
+    </h1>
+    <p class="text-center text-text-dark/60 font-body mb-12">Click each to see the password state</p>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-12 max-w-7xl mx-auto">
+
+      <!-- Option 1: Simple Elegant Card -->
+      <div class="text-center">
+        <div class="text-sm font-mono text-text-dark/60 mb-4">Option 1: Simple Elegant Card</div>
+        <div class="entry-option" data-option="1">
+          <div class="bg-cream/90 backdrop-blur-sm rounded-2xl shadow-xl p-10 max-w-sm mx-auto border border-white/50">
+            <div class="w-16 h-16 mx-auto mb-6 rounded-full bg-gradient-to-br from-pink-soft to-lavender flex items-center justify-center">
+              <svg viewBox="0 0 24 24" class="w-8 h-8 text-white">
+                <path fill="currentColor" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+              </svg>
+            </div>
+            <h2 class="text-2xl font-display text-text-dark mb-6">Are you Dhanushikka?</h2>
+            <button class="bg-gradient-to-r from-pink-soft to-lavender text-text-dark font-body px-8 py-3 rounded-full shadow-md hover:shadow-lg transition-all">
+              Yes, that's me
+            </button>
+          </div>
+        </div>
+        <p class="text-text-dark/50 text-sm mt-4 font-body">Clean, minimal, heart icon in circle</p>
+      </div>
+
+      <!-- Option 2: Floating Love Letter -->
+      <div class="text-center">
+        <div class="text-sm font-mono text-text-dark/60 mb-4">Option 2: Floating Love Letter</div>
+        <div class="entry-option" data-option="2">
+          <div class="relative max-w-sm mx-auto">
+            <!-- Paper shadow layers -->
+            <div class="absolute inset-0 bg-peach/50 rounded-lg transform rotate-3 translate-x-2 translate-y-2"></div>
+            <div class="absolute inset-0 bg-lavender/50 rounded-lg transform -rotate-2 translate-x-1 translate-y-1"></div>
+            <!-- Main letter -->
+            <div class="relative bg-cream rounded-lg shadow-xl p-10 border-t-4 border-pink-soft">
+              <div class="absolute -top-3 left-1/2 -translate-x-1/2 bg-pink-soft text-cream text-xs px-4 py-1 rounded-full font-body">
+                For You
+              </div>
+              <h2 class="text-2xl font-display text-text-dark mb-2 mt-2">Are you Dhanushikka?</h2>
+              <p class="text-text-dark/50 font-body text-sm mb-6 italic">A special message awaits...</p>
+              <button class="bg-text-dark text-cream font-body px-8 py-3 rounded-full shadow-md hover:bg-text-dark/90 transition-all">
+                Yes, that's me
+              </button>
+            </div>
+          </div>
+        </div>
+        <p class="text-text-dark/50 text-sm mt-4 font-body">Stacked papers, tag accent, romantic</p>
+      </div>
+
+      <!-- Option 3: Polaroid Style -->
+      <div class="text-center">
+        <div class="text-sm font-mono text-text-dark/60 mb-4">Option 3: Polaroid Frame</div>
+        <div class="entry-option" data-option="3">
+          <div class="bg-white p-4 pb-16 shadow-xl max-w-xs mx-auto transform -rotate-2 hover:rotate-0 transition-transform">
+            <div class="bg-gradient-to-br from-lavender via-pink-soft/50 to-peach aspect-square flex items-center justify-center">
+              <div class="text-center p-6">
+                <div class="text-5xl mb-4">💌</div>
+                <h2 class="text-xl font-display text-text-dark">Are you Dhanushikka?</h2>
+              </div>
+            </div>
+            <div class="absolute bottom-4 left-0 right-0 text-center">
+              <button class="bg-pink-soft text-text-dark font-body px-6 py-2 rounded-full text-sm shadow hover:shadow-md transition-all">
+                Yes, that's me
+              </button>
+            </div>
+          </div>
+        </div>
+        <p class="text-text-dark/50 text-sm mt-4 font-body">Photo frame style, playful tilt</p>
+      </div>
+
+      <!-- Option 4: Glass Morphism -->
+      <div class="text-center">
+        <div class="text-sm font-mono text-text-dark/60 mb-4">Option 4: Frosted Glass</div>
+        <div class="entry-option" data-option="4">
+          <div class="relative max-w-sm mx-auto">
+            <!-- Decorative blobs behind -->
+            <div class="absolute -top-8 -left-8 w-32 h-32 bg-pink-soft rounded-full blur-2xl opacity-60"></div>
+            <div class="absolute -bottom-8 -right-8 w-32 h-32 bg-lavender rounded-full blur-2xl opacity-60"></div>
+            <!-- Glass card -->
+            <div class="relative bg-white/40 backdrop-blur-lg rounded-3xl shadow-xl p-10 border border-white/60">
+              <h2 class="text-2xl font-display text-text-dark mb-2">Are you Dhanushikka?</h2>
+              <p class="text-text-dark/50 font-body text-sm mb-8">Something special is waiting for you</p>
+              <button class="bg-white/80 text-text-dark font-body px-8 py-3 rounded-full shadow-md hover:bg-white transition-all border border-pink-soft/30">
+                Yes, that's me
+              </button>
+            </div>
+          </div>
+        </div>
+        <p class="text-text-dark/50 text-sm mt-4 font-body">Modern, airy, dreamy blur effects</p>
+      </div>
+
+      <!-- Option 5: Vintage Postcard -->
+      <div class="text-center">
+        <div class="text-sm font-mono text-text-dark/60 mb-4">Option 5: Vintage Postcard</div>
+        <div class="entry-option" data-option="5">
+          <div class="bg-cream max-w-sm mx-auto rounded shadow-xl overflow-hidden border-4 border-white">
+            <!-- Stamp area -->
+            <div class="bg-white/50 p-4 flex justify-between items-start border-b border-dashed border-text-dark/20">
+              <div class="text-left">
+                <p class="text-xs text-text-dark/40 font-body uppercase tracking-wider">With Love</p>
+                <p class="font-display text-text-dark">February 2025</p>
+              </div>
+              <div class="w-14 h-16 bg-gradient-to-br from-pink-soft to-rose-400 rounded flex items-center justify-center transform rotate-3">
+                <svg viewBox="0 0 24 24" class="w-8 h-8 text-white">
+                  <path fill="currentColor" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                </svg>
+              </div>
+            </div>
+            <!-- Message area -->
+            <div class="p-8 text-center">
+              <h2 class="text-2xl font-display text-text-dark mb-6">Are you Dhanushikka?</h2>
+              <button class="border-2 border-text-dark text-text-dark font-body px-8 py-3 rounded-full hover:bg-text-dark hover:text-cream transition-all">
+                Yes, that's me
+              </button>
+            </div>
+          </div>
+        </div>
+        <p class="text-text-dark/50 text-sm mt-4 font-body">Classic postcard, stamp detail</p>
+      </div>
+
+      <!-- Option 6: Wax Seal Envelope (Fixed) -->
+      <div class="text-center">
+        <div class="text-sm font-mono text-text-dark/60 mb-4">Option 6: Envelope (Fixed Layout)</div>
+        <div class="entry-option" data-option="6">
+          <div class="max-w-sm mx-auto">
+            <!-- Envelope body -->
+            <div class="bg-gradient-to-b from-cream to-peach/40 rounded-lg shadow-xl p-8 pt-6 relative">
+              <!-- Flap hint at top -->
+              <div class="absolute top-0 left-0 right-0 h-3 bg-gradient-to-r from-peach via-pink-soft/50 to-lavender rounded-t-lg"></div>
+
+              <!-- Content properly spaced -->
+              <div class="text-center mt-4">
+                <h2 class="text-2xl font-display text-text-dark mb-2">Are you Dhanushikka?</h2>
+                <p class="text-text-dark/50 font-body text-sm mb-6 italic">Open to reveal your surprise</p>
+                <button class="bg-gradient-to-r from-pink-soft to-lavender text-text-dark font-body px-8 py-3 rounded-full shadow-md hover:shadow-lg transition-all">
+                  Yes, that's me
+                </button>
+              </div>
+
+              <!-- Wax seal at bottom -->
+              <div class="flex justify-center mt-6">
+                <div class="w-12 h-12 rounded-full bg-gradient-to-br from-rose-400 to-red-600 shadow-lg flex items-center justify-center">
+                  <svg viewBox="0 0 24 24" class="w-6 h-6 text-rose-200">
+                    <path fill="currentColor" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                  </svg>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <p class="text-text-dark/50 text-sm mt-4 font-body">Envelope with seal at bottom, clean layout</p>
+      </div>
+
+    </div>
+
+    <div class="mt-16 text-center">
+      <p class="font-body text-text-dark/70">
+        Pick a number (1-6) and I'll implement it!
+      </p>
+    </div>
+  </main>
+</Layout>
+
+<style>
+  .entry-option {
+    min-height: 280px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+</style>
