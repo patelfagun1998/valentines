@@ -39,6 +39,12 @@ After each feature, user should be able to:
 - Use background agents for long-running commands (npm install, builds)
 - Only use direct Bash tool for quick, essential commands (git status, etc.)
 
+### UI/UX Guidelines
+- **No explanatory navigation text** - avoid "Click here to...", "Click to open", "Use tabs to explore", etc.
+- Navigation should be intuitive and self-explanatory
+- Trust users to discover interactive elements through visual cues (hover states, cursor changes)
+- Keep UI clean and uncluttered
+
 ## Code Quality Standards
 
 ### TypeScript

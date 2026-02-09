@@ -1,23 +1,12 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import { PasswordGateWrapper } from '../components/PasswordGateWrapper';
+import { HomePage } from '../components/HomePage';
 ---
 
 <Layout title="A Special Surprise">
   <PasswordGateWrapper client:load>
-    <main class="min-h-screen flex items-center justify-center bg-gradient-to-br from-lavender/50 via-pink-soft/30 to-peach/50">
-      <div class="text-center">
-        <h1 class="text-5xl font-display text-text-dark mb-8">
-          Welcome, Dhanushikka
-        </h1>
-        <p class="text-xl text-text-dark/70 font-body">
-          You made it inside!
-        </p>
-        <p class="text-lg text-text-dark/50 font-body mt-4 italic">
-          (Next step: Letter reveal page)
-        </p>
-      </div>
-    </main>
+    <HomePage client:load />
   </PasswordGateWrapper>
 
   <!-- Dev reset button -->

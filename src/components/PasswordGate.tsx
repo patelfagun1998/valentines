@@ -66,11 +66,36 @@ export function PasswordGate({ onSuccess }: { onSuccess: () => void }) {
                       </h1>
                       <motion.button
                         onClick={handleYesClick}
-                        className="text-text-dark font-body text-lg border-b border-transparent hover:border-text-dark/50 transition-all pb-0.5"
-                        whileHover={{ y: -1 }}
-                        whileTap={{ y: 0 }}
+                        className="text-text-dark font-body text-lg px-6 py-2.5 relative"
+                        whileHover={{ scale: 1.03 }}
+                        whileTap={{ scale: 0.98 }}
                       >
-                        Yes, that's me
+                        {/* Cloud/bouncy outline */}
+                        <svg
+                          className="absolute inset-0 w-full h-full"
+                          viewBox="0 0 120 50"
+                          preserveAspectRatio="none"
+                        >
+                          <path
+                            d="M10,25
+                               Q5,15 15,10
+                               Q25,5 35,8
+                               Q45,3 55,6
+                               Q65,2 75,7
+                               Q85,4 95,10
+                               Q110,8 115,20
+                               Q120,30 110,38
+                               Q100,48 85,45
+                               Q70,50 55,46
+                               Q40,50 25,45
+                               Q10,48 5,38
+                               Q0,28 10,25 Z"
+                            fill="none"
+                            stroke="#5D4037"
+                            strokeWidth="1.5"
+                          />
+                        </svg>
+                        <span className="relative z-10">Prove it</span>
                       </motion.button>
                     </motion.div>
                   ) : (
