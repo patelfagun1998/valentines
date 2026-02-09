@@ -3,6 +3,11 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Letter } from './Letter';
 import { WatercolorHeart } from './WatercolorHeart';
 import { WorldMap, LocationDetail } from './WorldMap';
+import { Timeline } from './Timeline';
+import { LoveNotes } from './LoveNotes';
+import { Itinerary } from './Itinerary';
+import { MusicPlayer } from './MusicPlayer';
+import { Countdown } from './Countdown';
 
 // Letters data - add more entries here
 const letters = [
@@ -50,6 +55,10 @@ export function HomePage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-lavender/30 via-cream to-peach/30 font-body">
+      {/* Persistent elements */}
+      <MusicPlayer />
+      <Countdown />
+
       {/* Navigation */}
       <nav className="sticky top-0 z-50 bg-cream/80 backdrop-blur-sm border-b border-pink-soft/30">
         <div className="max-w-4xl mx-auto px-4">
@@ -83,9 +92,9 @@ export function HomePage() {
               onSelectLocation={setSelectedLocationId}
             />
           )}
-          {activeTab === 'timeline' && <PlaceholderContent key="timeline" title="Timeline" />}
-          {activeTab === 'notes' && <PlaceholderContent key="notes" title="Love Notes" />}
-          {activeTab === 'itinerary' && <PlaceholderContent key="itinerary" title="Itinerary" />}
+          {activeTab === 'timeline' && <TimelineContent key="timeline" />}
+          {activeTab === 'notes' && <LoveNotesContent key="notes" />}
+          {activeTab === 'itinerary' && <ItineraryContent key="itinerary" />}
         </AnimatePresence>
       </main>
     </div>
@@ -285,17 +294,41 @@ function MapContent({
   );
 }
 
-function PlaceholderContent({ title }: { title: string }) {
+function TimelineContent() {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -20 }}
       transition={{ duration: 0.3 }}
-      className="text-center max-w-2xl mx-auto"
     >
-      <h2 className="text-3xl font-display text-text-dark mb-4">{title}</h2>
-      <p className="text-text-dark/50 italic">[Coming soon]</p>
+      <Timeline />
+    </motion.div>
+  );
+}
+
+function LoveNotesContent() {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -20 }}
+      transition={{ duration: 0.3 }}
+    >
+      <LoveNotes />
+    </motion.div>
+  );
+}
+
+function ItineraryContent() {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -20 }}
+      transition={{ duration: 0.3 }}
+    >
+      <Itinerary />
     </motion.div>
   );
 }
