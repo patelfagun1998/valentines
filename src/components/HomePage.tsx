@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Letter } from './Letter';
 import { WatercolorHeart } from './WatercolorHeart';
+import { WorldMap, LocationDetail } from './WorldMap';
 
 // Letters data - add more entries here
 const letters = [
@@ -38,6 +39,7 @@ const tabs: { id: Tab; label: string }[] = [
 export function HomePage() {
   const [activeTab, setActiveTab] = useState<Tab>('home');
   const [selectedLetterId, setSelectedLetterId] = useState<string | null>(null);
+  const [selectedLocationId, setSelectedLocationId] = useState<string | null>(null);
 
   const openLatestLetter = () => {
     if (letters.length > 0) {
@@ -74,7 +76,13 @@ export function HomePage() {
         <AnimatePresence mode="wait">
           {activeTab === 'home' && <WelcomeContent key="home" onOpenLetter={openLatestLetter} />}
           {activeTab === 'letter' && <LetterContent key="letter" initialLetterId={selectedLetterId} onClearSelection={() => setSelectedLetterId(null)} />}
-          {activeTab === 'map' && <PlaceholderContent key="map" title="Our World" />}
+          {activeTab === 'map' && (
+            <MapContent
+              key="map"
+              selectedLocationId={selectedLocationId}
+              onSelectLocation={setSelectedLocationId}
+            />
+          )}
           {activeTab === 'timeline' && <PlaceholderContent key="timeline" title="Timeline" />}
           {activeTab === 'notes' && <PlaceholderContent key="notes" title="Love Notes" />}
           {activeTab === 'itinerary' && <PlaceholderContent key="itinerary" title="Itinerary" />}
@@ -242,6 +250,35 @@ function LetterContent({ initialLetterId, onClearSelection }: { initialLetterId:
 
             <Letter content={activeLetter?.content} />
           </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.div>
+  );
+}
+
+function MapContent({
+  selectedLocationId,
+  onSelectLocation,
+}: {
+  selectedLocationId: string | null;
+  onSelectLocation: (id: string | null) => void;
+}) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -20 }}
+      transition={{ duration: 0.3 }}
+    >
+      <AnimatePresence mode="wait">
+        {!selectedLocationId ? (
+          <WorldMap key="map" onSelectLocation={onSelectLocation} />
+        ) : (
+          <LocationDetail
+            key="detail"
+            locationId={selectedLocationId}
+            onBack={() => onSelectLocation(null)}
+          />
         )}
       </AnimatePresence>
     </motion.div>
