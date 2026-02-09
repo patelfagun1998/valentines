@@ -16,30 +16,20 @@ const geoUrl = 'https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json';
 // coordinates are [longitude, latitude]
 export const locations = [
   {
-    id: 'paris',
-    name: 'Paris',
-    coordinates: [2.3522, 48.8566] as [number, number],
-    date: 'June 2024',
-    description: '[Add description]',
-    photos: [] as string[],
+    id: 'seattle',
+    name: 'Seattle',
+    coordinates: [-122.3321, 47.6062] as [number, number],
+    date: '',
+    description: '',
+    photos: [
+      '/photos/seattle/seattle-1.jpg',
+      '/photos/seattle/seattle-2.jpg',
+      '/photos/seattle/seattle-3.jpg',
+      '/photos/seattle/seattle-4.jpg',
+      '/photos/seattle/seattle-5.jpg',
+      '/photos/seattle/seattle-6.jpg',
+    ],
   },
-  {
-    id: 'tokyo',
-    name: 'Tokyo',
-    coordinates: [139.6917, 35.6895] as [number, number],
-    date: 'March 2024',
-    description: '[Add description]',
-    photos: [] as string[],
-  },
-  // Add more locations:
-  // {
-  //   id: 'new-york',
-  //   name: 'New York',
-  //   coordinates: [-74.006, 40.7128] as [number, number],
-  //   date: 'December 2023',
-  //   description: 'Our first trip together',
-  //   photos: ['/photos/ny-1.jpg', '/photos/ny-2.jpg'],
-  // },
 ];
 
 interface WorldMapProps {
