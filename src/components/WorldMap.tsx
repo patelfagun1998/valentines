@@ -184,7 +184,13 @@ interface WorldMapProps {
 
 export function WorldMap({ onSelectLocation }: WorldMapProps) {
   const [hoveredLocation, setHoveredLocation] = useState<string | null>(null);
+  const [zoom, setZoom] = useState(1);
   const hoverTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  // Scale markers inversely with zoom
+  const markerRadius = 8 / zoom;
+  const pulseRadius = 8 / zoom;
+  const strokeWidth = 2 / zoom;
 
   // Prevent page scroll while map is visible
   useEffect(() => {
@@ -225,7 +231,7 @@ export function WorldMap({ onSelectLocation }: WorldMapProps) {
           }}
           style={{ width: '100%', height: '100%' }}
         >
-          <ZoomableGroup>
+          <ZoomableGroup onMoveEnd={({ zoom: z }) => setZoom(z)}>
             <Geographies geography={geoUrl}>
               {({ geographies }) =>
                 geographies.map((geo) => (
@@ -262,24 +268,24 @@ export function WorldMap({ onSelectLocation }: WorldMapProps) {
                 >
                   {/* Heart marker */}
                   <circle
-                    r={8}
+                    r={markerRadius}
                     fill="#FFB5C5"
                     stroke="#fff"
-                    strokeWidth={2}
+                    strokeWidth={strokeWidth}
                     filter="drop-shadow(0 2px 3px rgba(0,0,0,0.2))"
                   />
                   {/* Pulse animation ring */}
                   <circle
-                    r={8}
+                    r={pulseRadius}
                     fill="none"
                     stroke="#FFB5C5"
-                    strokeWidth={1}
+                    strokeWidth={1 / zoom}
                     opacity={0.5}
                   >
                     <animate
                       attributeName="r"
-                      from="8"
-                      to="16"
+                      from={`${pulseRadius}`}
+                      to={`${pulseRadius * 2}`}
                       dur="1.5s"
                       repeatCount="indefinite"
                     />
@@ -297,20 +303,20 @@ export function WorldMap({ onSelectLocation }: WorldMapProps) {
                 {hoveredLocation === location.id && (
                   <g style={{ pointerEvents: 'none' }}>
                     <rect
-                      x={-50}
-                      y={-50}
-                      width={100}
-                      height={30}
-                      rx={4}
+                      x={-50 / zoom}
+                      y={-45 / zoom}
+                      width={100 / zoom}
+                      height={30 / zoom}
+                      rx={4 / zoom}
                       fill="white"
                       filter="drop-shadow(0 2px 4px rgba(0,0,0,0.15))"
                     />
                     <text
                       textAnchor="middle"
-                      y={-30}
+                      y={-25 / zoom}
                       style={{
                         fontFamily: 'Italiana, serif',
-                        fontSize: '12px',
+                        fontSize: `${12 / zoom}px`,
                         fill: '#5D4037',
                       }}
                     >
