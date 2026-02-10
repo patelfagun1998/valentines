@@ -107,6 +107,50 @@ const locationConfigs: LocationConfig[] = [
     date: '',
     description: '',
   },
+  {
+    id: 'yosemite',
+    name: 'Yosemite',
+    coordinates: [-119.5383, 37.8651] as [number, number],
+    date: '',
+    description: '',
+  },
+  {
+    id: 'coachella',
+    name: 'Coachella',
+    coordinates: [-116.1739, 33.6803] as [number, number],
+    date: '',
+    description: '',
+  },
+  {
+    id: 'san-diego',
+    name: 'San Diego',
+    coordinates: [-117.1611, 32.7157] as [number, number],
+    date: '',
+    description: '',
+    photosId: 'socal-trip',
+  },
+  {
+    id: 'los-angeles',
+    name: 'Los Angeles',
+    coordinates: [-118.2437, 34.0522] as [number, number],
+    date: '',
+    description: '',
+    photosId: 'socal-trip',
+  },
+  {
+    id: 'ahmedabad',
+    name: 'Ahmedabad',
+    coordinates: [72.5714, 23.0225] as [number, number],
+    date: '',
+    description: '',
+  },
+  {
+    id: 'chennai',
+    name: 'Chennai',
+    coordinates: [80.2707, 13.0827] as [number, number],
+    date: '',
+    description: '',
+  },
 ];
 
 interface LocationConfig {
@@ -115,17 +159,21 @@ interface LocationConfig {
   coordinates: [number, number];
   date: string;
   description: string;
+  photosId?: string; // Override which album folder to use for photos
 }
 
 interface Location extends LocationConfig {
   photos: string[];
+  photosId: string;
 }
 
 // Merge configs with photo manifest
 export const locations: Location[] = locationConfigs.map((config) => {
-  const manifestData = (photosManifest as Record<string, { name: string; photos: string[] }>)[config.id];
+  const photoKey = config.photosId || config.id;
+  const manifestData = (photosManifest as Record<string, { name: string; photos: string[] }>)[photoKey];
   return {
     ...config,
+    photosId: photoKey,
     photos: manifestData?.photos || [],
   };
 });
@@ -338,7 +386,7 @@ export function LocationDetail({ locationId, onBack }: LocationDetailProps) {
               style={{ transform: `rotate(${(i % 2 === 0 ? -1 : 1) * 2}deg)` }}
             >
               <img
-                src={`/photos/${location.id}/${filename}`}
+                src={`/photos/${location.photosId}/${filename}`}
                 alt={`${location.name} photo ${i + 1}`}
                 className="w-full h-full object-cover"
                 loading="lazy"

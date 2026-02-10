@@ -76,6 +76,31 @@ const locations = [
     name: 'Orlando',
     googlePhotosLink: 'https://photos.app.goo.gl/dA1JAYbrnzFZc3ev9',
   },
+  {
+    id: 'yosemite',
+    name: 'Yosemite',
+    googlePhotosLink: 'https://photos.app.goo.gl/T1xmgB8LqmGxaBHL7',
+  },
+  {
+    id: 'coachella',
+    name: 'Coachella',
+    googlePhotosLink: 'https://photos.app.goo.gl/ymWPpxfnrX3wZ5yC8',
+  },
+  {
+    id: 'socal-trip',
+    name: 'SoCal Trip',
+    googlePhotosLink: 'https://photos.app.goo.gl/xRmUE4HFoR5MDdnR7',
+  },
+  {
+    id: 'ahmedabad',
+    name: 'Ahmedabad',
+    googlePhotosLink: 'https://photos.app.goo.gl/3CcCV1qvn7UceTCt5',
+  },
+  {
+    id: 'chennai',
+    name: 'Chennai',
+    googlePhotosLink: 'https://photos.app.goo.gl/7dS64vWbtjigTSpr5',
+  },
 ];
 
 const REQUEST_TIMEOUT = 30000;
