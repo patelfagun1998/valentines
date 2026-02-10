@@ -1,10 +1,11 @@
-import { useState, useRef, useCallback } from 'react';
+import { useState, useRef, useCallback, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   ComposableMap,
   Geographies,
   Geography,
   Marker,
+  ZoomableGroup,
 } from 'react-simple-maps';
 import { WatercolorHeart } from './WatercolorHeart';
 import photosManifest from '../data/photos-manifest.json';
@@ -137,6 +138,14 @@ export function WorldMap({ onSelectLocation }: WorldMapProps) {
   const [hoveredLocation, setHoveredLocation] = useState<string | null>(null);
   const hoverTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
+  // Prevent page scroll while map is visible
+  useEffect(() => {
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, []);
+
   const handleMouseEnter = useCallback((locationId: string) => {
     if (hoverTimeoutRef.current) {
       clearTimeout(hoverTimeoutRef.current);
@@ -168,6 +177,7 @@ export function WorldMap({ onSelectLocation }: WorldMapProps) {
           }}
           style={{ width: '100%', height: '100%' }}
         >
+          <ZoomableGroup>
             <Geographies geography={geoUrl}>
               {({ geographies }) =>
                 geographies.map((geo) => (
@@ -262,6 +272,7 @@ export function WorldMap({ onSelectLocation }: WorldMapProps) {
                 )}
               </Marker>
             ))}
+          </ZoomableGroup>
         </ComposableMap>
       </div>
 
