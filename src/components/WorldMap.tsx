@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   ComposableMap,
@@ -94,6 +94,23 @@ interface WorldMapProps {
 
 export function WorldMap({ onSelectLocation }: WorldMapProps) {
   const [hoveredLocation, setHoveredLocation] = useState<string | null>(null);
+  const hoverTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  const handleMouseEnter = useCallback((locationId: string) => {
+    if (hoverTimeoutRef.current) {
+      clearTimeout(hoverTimeoutRef.current);
+    }
+    setHoveredLocation(locationId);
+  }, []);
+
+  const handleMouseLeave = useCallback(() => {
+    if (hoverTimeoutRef.current) {
+      clearTimeout(hoverTimeoutRef.current);
+    }
+    hoverTimeoutRef.current = setTimeout(() => {
+      setHoveredLocation(null);
+    }, 100);
+  }, []);
 
   return (
     <div className="w-full -mx-4 px-4">
@@ -134,16 +151,16 @@ export function WorldMap({ onSelectLocation }: WorldMapProps) {
               <Marker
                 key={location.id}
                 coordinates={location.coordinates}
-                onMouseEnter={() => setHoveredLocation(location.id)}
-                onMouseLeave={() => setHoveredLocation(null)}
+                onMouseEnter={() => handleMouseEnter(location.id)}
+                onMouseLeave={handleMouseLeave}
                 onClick={() => onSelectLocation(location.id)}
                 style={{ cursor: 'pointer' }}
               >
                 <motion.g
                   initial={{ scale: 0 }}
-                  animate={{ scale: 1 }}
-                  whileHover={{ scale: 1.3 }}
+                  animate={{ scale: hoveredLocation === location.id ? 1.3 : 1 }}
                   whileTap={{ scale: 0.9 }}
+                  transition={{ type: 'spring', stiffness: 300, damping: 20 }}
                 >
                   {/* Heart marker */}
                   <circle
@@ -178,13 +195,13 @@ export function WorldMap({ onSelectLocation }: WorldMapProps) {
                   </circle>
                 </motion.g>
 
-                {/* Tooltip */}
+                {/* Tooltip - pointer-events none prevents interference */}
                 {hoveredLocation === location.id && (
-                  <g>
+                  <g style={{ pointerEvents: 'none' }}>
                     <rect
-                      x={-40}
-                      y={-45}
-                      width={80}
+                      x={-50}
+                      y={-50}
+                      width={100}
                       height={30}
                       rx={4}
                       fill="white"
@@ -192,7 +209,7 @@ export function WorldMap({ onSelectLocation }: WorldMapProps) {
                     />
                     <text
                       textAnchor="middle"
-                      y={-25}
+                      y={-30}
                       style={{
                         fontFamily: 'Italiana, serif',
                         fontSize: '12px',
