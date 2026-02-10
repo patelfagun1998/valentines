@@ -4,7 +4,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 // Add your YouTube videos here - use the video ID from the URL
 const playlist = [
   { id: 'xFrGuyw1V8s', title: 'Dancing Queen - ABBA' },
-  // { id: 'VIDEO_ID', title: 'Song Title - Artist' },
+  { id: '8xg3vE8Ie_E', title: 'Love Story - Taylor Swift' },
+  { id: 'udRAIF6MOm8', title: 'Burning Bridges - Sigrid' },
 ];
 
 declare global {
