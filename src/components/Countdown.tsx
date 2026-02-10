@@ -7,9 +7,8 @@ interface CountdownProps {
   startDate?: Date;
 }
 
-// Default dates - update these!
 const DEFAULT_TARGET = new Date('2025-02-14T00:00:00'); // Valentine's Day 2025
-const DEFAULT_START = new Date('2023-01-01T00:00:00'); // When you started dating
+const DEFAULT_START = new Date('2021-09-18T00:00:00'); // Anniversary date
 
 export function Countdown({
   targetDate = DEFAULT_TARGET,
