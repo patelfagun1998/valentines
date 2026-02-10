@@ -1,7 +1,7 @@
-import puppeteer from 'puppeteer';
 import fs from 'fs';
 import path from 'path';
 import https from 'https';
+import http from 'http';
 import { fileURLToPath } from 'url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -19,102 +19,77 @@ const locations = [
   // Add more locations here
 ];
 
-async function downloadImage(url, filepath) {
+const REQUEST_TIMEOUT = 30000;
+
+/**
+ * Download file from URL with redirect handling
+ */
+function downloadFile(url, destPath, maxRedirects = 5) {
   return new Promise((resolve, reject) => {
-    const file = fs.createWriteStream(filepath);
-    https.get(url, (response) => {
+    if (maxRedirects <= 0) {
+      reject(new Error('Too many redirects'));
+      return;
+    }
+
+    const protocol = url.startsWith('https') ? https : http;
+
+    const request = protocol.get(url, { timeout: REQUEST_TIMEOUT }, (response) => {
       // Handle redirects
-      if (response.statusCode === 301 || response.statusCode === 302) {
-        https.get(response.headers.location, (redirectResponse) => {
-          redirectResponse.pipe(file);
-          file.on('finish', () => {
-            file.close();
-            resolve();
-          });
-        }).on('error', reject);
-      } else {
-        response.pipe(file);
-        file.on('finish', () => {
-          file.close();
-          resolve();
-        });
+      if (response.statusCode >= 300 && response.statusCode < 400 && response.headers.location) {
+        downloadFile(response.headers.location, destPath, maxRedirects - 1)
+          .then(resolve)
+          .catch(reject);
+        return;
       }
-    }).on('error', (err) => {
-      fs.unlink(filepath, () => {});
-      reject(err);
-    });
-  });
-}
 
-async function scrapeGooglePhotosAlbum(url) {
-  console.log(`Launching browser to scrape: ${url}`);
+      if (response.statusCode !== 200) {
+        reject(new Error(`Failed to download: HTTP ${response.statusCode}`));
+        return;
+      }
 
-  const browser = await puppeteer.launch({
-    headless: 'new',
-    args: ['--no-sandbox', '--disable-setuid-sandbox'],
-  });
+      const fileStream = fs.createWriteStream(destPath);
+      response.pipe(fileStream);
 
-  const page = await browser.newPage();
-  await page.setViewport({ width: 1920, height: 1080 });
-
-  try {
-    await page.goto(url, { waitUntil: 'networkidle2', timeout: 60000 });
-
-    // Wait for images to load
-    await page.waitForSelector('img', { timeout: 30000 });
-
-    // Scroll to load all images
-    await autoScroll(page);
-
-    // Extract high-res image URLs
-    const imageUrls = await page.evaluate(() => {
-      const images = document.querySelectorAll('img');
-      const urls = [];
-
-      images.forEach((img) => {
-        let src = img.src;
-        // Google Photos uses =w and =h parameters for sizing
-        // Remove size constraints to get full resolution
-        if (src && src.includes('googleusercontent.com')) {
-          // Get highest resolution by modifying URL
-          src = src.replace(/=w\d+(-h\d+)?(-[a-z]+)?/gi, '=w2048');
-          if (!urls.includes(src)) {
-            urls.push(src);
-          }
-        }
+      fileStream.on('finish', () => {
+        fileStream.close();
+        resolve();
       });
 
-      return urls;
+      fileStream.on('error', (err) => {
+        fs.unlink(destPath, () => {});
+        reject(err);
+      });
     });
 
-    await browser.close();
-    return imageUrls;
-  } catch (error) {
-    await browser.close();
-    throw error;
-  }
-}
-
-async function autoScroll(page) {
-  await page.evaluate(async () => {
-    await new Promise((resolve) => {
-      let totalHeight = 0;
-      const distance = 500;
-      const timer = setInterval(() => {
-        const scrollHeight = document.documentElement.scrollHeight;
-        window.scrollBy(0, distance);
-        totalHeight += distance;
-
-        if (totalHeight >= scrollHeight || totalHeight > 10000) {
-          clearInterval(timer);
-          resolve();
-        }
-      }, 200);
+    request.on('error', reject);
+    request.on('timeout', () => {
+      request.destroy();
+      reject(new Error('Request timeout'));
     });
   });
+}
 
-  // Wait a bit for images to load after scrolling
-  await new Promise((r) => setTimeout(r, 2000));
+/**
+ * Fetch image URLs from Google Photos album using dedicated library
+ */
+async function fetchAlbumImages(albumUrl) {
+  console.log('  Fetching album images...');
+
+  try {
+    const { fetchImageUrls } = await import('google-photos-album-image-url-fetch');
+    const imageUrls = await fetchImageUrls(albumUrl);
+
+    if (!imageUrls || imageUrls.length === 0) {
+      console.log('  No images found in album');
+      return [];
+    }
+
+    console.log(`  Found ${imageUrls.length} images in album`);
+    return imageUrls;
+  } catch (error) {
+    console.error(`  Error fetching album: ${error.message}`);
+    return [];
+  }
 }
 
 async function processLocation(location) {
@@ -143,29 +118,41 @@ async function processLocation(location) {
   }
 
   try {
-    const imageUrls = await scrapeGooglePhotosAlbum(location.googlePhotosLink);
-    console.log(`  Found ${imageUrls.length} images`);
-
+    const imageData = await fetchAlbumImages(location.googlePhotosLink);
     const downloadedFiles = [];
 
-    for (let i = 0; i < imageUrls.length; i++) {
-      const url = imageUrls[i];
+    for (let i = 0; i < imageData.length; i++) {
+      const item = imageData[i];
+      // The library returns objects with url property, or just strings
+      const imageUrl = typeof item === 'string' ? item : item.url;
+
+      if (!imageUrl) continue;
+
+      // Get high-resolution version
+      let highResUrl = imageUrl;
+      if (imageUrl.includes('googleusercontent.com')) {
+        highResUrl = imageUrl.split('=')[0] + '=w2048-h2048';
+      }
+
       const filename = `photo_${String(i + 1).padStart(3, '0')}.jpg`;
       const filepath = path.join(locationDir, filename);
 
-      console.log(`  Downloading ${i + 1}/${imageUrls.length}: ${filename}`);
+      console.log(`  Downloading ${i + 1}/${imageData.length}: ${filename}`);
 
       try {
-        await downloadImage(url, filepath);
+        await downloadFile(highResUrl, filepath);
         downloadedFiles.push(filename);
       } catch (err) {
         console.error(`  Failed to download: ${err.message}`);
       }
+
+      // Small delay between downloads
+      await new Promise(resolve => setTimeout(resolve, 200));
     }
 
     return downloadedFiles;
   } catch (error) {
-    console.error(`  Error scraping album: ${error.message}`);
+    console.error(`  Error processing album: ${error.message}`);
     return [];
   }
 }

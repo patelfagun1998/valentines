@@ -4,8 +4,7 @@ import { Letter } from './Letter';
 import { WatercolorHeart } from './WatercolorHeart';
 import { WorldMap, LocationDetail } from './WorldMap';
 import { Timeline } from './Timeline';
-import { LoveNotes } from './LoveNotes';
-import { Itinerary } from './Itinerary';
+// import { LoveNotes } from './LoveNotes'; // Hidden for now
 import { MusicPlayer } from './MusicPlayer';
 import { Countdown } from './Countdown';
 
@@ -30,15 +29,14 @@ const letters = [
   // },
 ];
 
-type Tab = 'home' | 'letter' | 'map' | 'timeline' | 'notes' | 'itinerary';
+type Tab = 'home' | 'letter' | 'map' | 'timeline' | 'notes';
 
 const tabs: { id: Tab; label: string }[] = [
   { id: 'home', label: 'Home' },
   { id: 'letter', label: 'Letters' },
   { id: 'map', label: 'Our World' },
   { id: 'timeline', label: 'Timeline' },
-  { id: 'notes', label: 'Love Notes' },
-  { id: 'itinerary', label: 'Itinerary' },
+  // { id: 'notes', label: 'Love Notes' }, // Hidden for now
 ];
 
 export function HomePage() {
@@ -62,7 +60,7 @@ export function HomePage() {
       {/* Navigation */}
       <nav className="sticky top-0 z-50 bg-cream/80 backdrop-blur-sm border-b border-pink-soft/30">
         <div className="max-w-4xl mx-auto px-4">
-          <div className="flex gap-1 overflow-x-auto py-3 scrollbar-hide">
+          <div className="flex justify-center gap-1 overflow-x-auto py-3 scrollbar-hide">
             {tabs.map((tab) => (
               <button
                 key={tab.id}
@@ -93,8 +91,7 @@ export function HomePage() {
             />
           )}
           {activeTab === 'timeline' && <TimelineContent key="timeline" />}
-          {activeTab === 'notes' && <LoveNotesContent key="notes" />}
-          {activeTab === 'itinerary' && <ItineraryContent key="itinerary" />}
+          {/* {activeTab === 'notes' && <LoveNotesContent key="notes" />} */}
         </AnimatePresence>
       </main>
     </div>
@@ -160,11 +157,11 @@ function WelcomeContent({ onOpenLetter }: { onOpenLetter: () => void }) {
 
         {/* Wax seal - centered on flap point (140, 110) */}
         <motion.div
-          initial={{ scale: 0 }}
-          animate={{ scale: 1 }}
+          initial={{ scale: 0, x: '-50%' }}
+          animate={{ scale: 1, x: '-50%' }}
           transition={{ delay: 0.5, type: 'spring', stiffness: 200 }}
           className="absolute z-20"
-          style={{ top: '82px', left: '50%', transform: 'translateX(-50%)' }}
+          style={{ top: '82px', left: '50%' }}
         >
           <div className="w-14 h-14 rounded-full bg-gradient-to-br from-rose-400 via-red-500 to-rose-700 shadow-lg flex items-center justify-center">
             <div className="absolute inset-0.5 rounded-full border border-rose-300/20" />
@@ -307,28 +304,16 @@ function TimelineContent() {
   );
 }
 
-function LoveNotesContent() {
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -20 }}
-      transition={{ duration: 0.3 }}
-    >
-      <LoveNotes />
-    </motion.div>
-  );
-}
-
-function ItineraryContent() {
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -20 }}
-      transition={{ duration: 0.3 }}
-    >
-      <Itinerary />
-    </motion.div>
-  );
-}
+// Hidden for now - uncomment when ready to show Love Notes
+// function LoveNotesContent() {
+//   return (
+//     <motion.div
+//       initial={{ opacity: 0, y: 20 }}
+//       animate={{ opacity: 1, y: 0 }}
+//       exit={{ opacity: 0, y: -20 }}
+//       transition={{ duration: 0.3 }}
+//     >
+//       <LoveNotes />
+//     </motion.div>
+//   );
+// }
