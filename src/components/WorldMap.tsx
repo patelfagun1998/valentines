@@ -122,7 +122,7 @@ export function WorldMap({ onSelectLocation }: WorldMapProps) {
                     strokeWidth={0.5}
                     style={{
                       default: { outline: 'none' },
-                      hover: { outline: 'none', fill: '#DCD0E8' },
+                      hover: { outline: 'none' },
                       pressed: { outline: 'none' },
                     }}
                   />
