@@ -148,6 +148,23 @@ npm run format    # Auto-format code
 npm run build     # Ensure it builds
 ```
 
+### Pushing Changes
+**Never push directly to `main`.** Always use the auto-merge PR script:
+```bash
+bash scripts/push-pr.sh "Your commit message"
+```
+This will:
+1. Create a new branch from the current state
+2. Stage, commit, and push the changes
+3. Open a PR against `main`
+4. Enable auto-merge (squash) — the PR merges automatically once CI passes
+5. Switch back to the `main` branch
+
+After the PR merges, pull to stay up to date:
+```bash
+git pull origin main
+```
+
 ## Accessibility
 - Use semantic HTML elements
 - Add `aria-label` to icon buttons
