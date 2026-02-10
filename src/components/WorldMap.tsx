@@ -153,6 +153,13 @@ const locationConfigs: LocationConfig[] = [
     description: '',
   },
   {
+    id: 'boston',
+    name: 'Boston',
+    coordinates: [-71.0589, 42.3601] as [number, number],
+    date: '',
+    description: '',
+  },
+  {
     id: 'ahmedabad',
     name: 'Ahmedabad',
     coordinates: [72.5714, 23.0225] as [number, number],
