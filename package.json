@@ -9,7 +9,9 @@
     "build": "astro build",
     "preview": "astro preview",
     "lint": "eslint src --ext .ts,.tsx,.astro",
-    "format": "prettier --write src"
+    "format": "prettier --write src",
+    "test": "vitest run",
+    "test:watch": "vitest"
   },
   "dependencies": {
     "@astrojs/react": "^4.2.0",
@@ -22,6 +24,8 @@
     "react-simple-maps": "^3.0.0"
   },
   "devDependencies": {
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.2",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
     "@types/react-simple-maps": "^3.0.6",
@@ -31,10 +35,12 @@
     "eslint": "^9.0.0",
     "eslint-plugin-react": "^7.37.0",
     "eslint-plugin-react-hooks": "^5.0.0",
+    "jsdom": "^27.0.1",
     "postcss": "^8.4.49",
     "prettier": "^3.4.0",
     "prettier-plugin-astro": "^0.14.0",
     "tailwindcss": "^3.4.17",
-    "typescript": "^5.7.0"
+    "typescript": "^5.7.0",
+    "vitest": "^4.0.18"
   }
 }
