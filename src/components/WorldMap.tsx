@@ -8,39 +8,51 @@ import {
   ZoomableGroup,
 } from 'react-simple-maps';
 import { WatercolorHeart } from './WatercolorHeart';
+import photosManifest from '../data/photos-manifest.json';
 
 // GeoJSON for world map
 const geoUrl = 'https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json';
 
-// Location data - add your locations here
-// coordinates are [longitude, latitude]
-export const locations = [
+// Location configs - coordinates and metadata
+// Photos are loaded automatically from the manifest (generated at build time)
+const locationConfigs: LocationConfig[] = [
   {
-    id: 'paris',
-    name: 'Paris',
-    coordinates: [2.3522, 48.8566] as [number, number],
-    date: 'June 2024',
-    description: '[Add description]',
-    photos: [] as string[],
-  },
-  {
-    id: 'tokyo',
-    name: 'Tokyo',
-    coordinates: [139.6917, 35.6895] as [number, number],
-    date: 'March 2024',
-    description: '[Add description]',
-    photos: [] as string[],
+    id: 'seattle',
+    name: 'Seattle',
+    coordinates: [-122.3321, 47.6062] as [number, number],
+    date: '',
+    description: '',
   },
   // Add more locations:
   // {
-  //   id: 'new-york',
-  //   name: 'New York',
-  //   coordinates: [-74.006, 40.7128] as [number, number],
-  //   date: 'December 2023',
-  //   description: 'Our first trip together',
-  //   photos: ['/photos/ny-1.jpg', '/photos/ny-2.jpg'],
+  //   id: 'paris',
+  //   name: 'Paris',
+  //   coordinates: [2.3522, 48.8566] as [number, number],
+  //   date: 'June 2024',
+  //   description: 'City of love',
   // },
 ];
+
+interface LocationConfig {
+  id: string;
+  name: string;
+  coordinates: [number, number];
+  date: string;
+  description: string;
+}
+
+interface Location extends LocationConfig {
+  photos: string[];
+}
+
+// Merge configs with photo manifest
+export const locations: Location[] = locationConfigs.map((config) => {
+  const manifestData = (photosManifest as Record<string, { name: string; photos: string[] }>)[config.id];
+  return {
+    ...config,
+    photos: manifestData?.photos || [],
+  };
+});
 
 interface WorldMapProps {
   onSelectLocation: (locationId: string) => void;
@@ -186,6 +198,8 @@ export function LocationDetail({ locationId, onBack }: LocationDetailProps) {
     return <div>Location not found</div>;
   }
 
+  const hasPhotos = location.photos.length > 0;
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -203,7 +217,7 @@ export function LocationDetail({ locationId, onBack }: LocationDetailProps) {
 
       <div className="text-center mb-8">
         <h2 className="text-3xl font-display text-text-dark">{location.name}</h2>
-        <p className="text-text-dark/60 mt-1">{location.date}</p>
+        {location.date && <p className="text-text-dark/60 mt-1">{location.date}</p>}
       </div>
 
       {location.description && (
@@ -211,9 +225,9 @@ export function LocationDetail({ locationId, onBack }: LocationDetailProps) {
       )}
 
       {/* Photo grid */}
-      {location.photos.length > 0 ? (
+      {hasPhotos ? (
         <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-          {location.photos.map((photo, i) => (
+          {location.photos.map((filename, i) => (
             <motion.div
               key={i}
               initial={{ opacity: 0, scale: 0.9 }}
@@ -223,7 +237,7 @@ export function LocationDetail({ locationId, onBack }: LocationDetailProps) {
               style={{ transform: `rotate(${(i % 2 === 0 ? -1 : 1) * 2}deg)` }}
             >
               <img
-                src={photo}
+                src={`/photos/${location.id}/${filename}`}
                 alt={`${location.name} photo ${i + 1}`}
                 className="w-full h-full object-cover"
               />
@@ -233,7 +247,7 @@ export function LocationDetail({ locationId, onBack }: LocationDetailProps) {
       ) : (
         <div className="text-center py-12 bg-lavender/20 rounded-lg">
           <WatercolorHeart size={60} animate={false} />
-          <p className="text-text-dark/50 mt-4 italic">[Photos coming soon]</p>
+          <p className="text-text-dark/50 mt-4 italic">Photos coming soon</p>
         </div>
       )}
     </motion.div>

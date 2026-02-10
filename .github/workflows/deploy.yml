@@ -29,8 +29,13 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Build site
+      - name: Install Puppeteer browser
+        run: npx puppeteer browsers install chrome
+
+      - name: Build site (includes photo download)
         run: npm run build
+        env:
+          PUPPETEER_SKIP_CHROMIUM_DOWNLOAD: false
 
       - name: Create Pages project if not exists
         uses: cloudflare/wrangler-action@v3
