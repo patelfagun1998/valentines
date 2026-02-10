@@ -212,6 +212,9 @@ export function WorldMap({ onSelectLocation }: WorldMapProps) {
   // Scale factor for markers (inverse of zoom for consistent visual size)
   const markerScale = 1 / zoom;
 
+  // Special heart locations — rendered on the top layer
+  const heartLocationIds = new Set(['seattle', 'vancouver', 'san-francisco', 'new-york']);
+
   // Prevent page scroll while map is visible
   useEffect(() => {
     document.body.style.overflow = 'hidden';
@@ -271,8 +274,8 @@ export function WorldMap({ onSelectLocation }: WorldMapProps) {
               }
             </Geographies>
 
-            {/* Render no-photo locations first (below) */}
-            {locations.filter((l) => l.photos.length === 0).map((location) => (
+            {/* Layer 1: No-photo locations (bottom) */}
+            {locations.filter((l) => l.photos.length === 0 && !heartLocationIds.has(l.id)).map((location) => (
               <Marker
                 key={location.id}
                 coordinates={location.coordinates}
@@ -326,8 +329,8 @@ export function WorldMap({ onSelectLocation }: WorldMapProps) {
               </Marker>
             ))}
 
-            {/* Render locations with photos on top */}
-            {locations.filter((l) => l.photos.length > 0).map((location) => (
+            {/* Layer 2: Regular locations with photos (middle) */}
+            {locations.filter((l) => l.photos.length > 0 && !heartLocationIds.has(l.id)).map((location) => (
               <Marker
                 key={location.id}
                 coordinates={location.coordinates}
@@ -343,7 +346,6 @@ export function WorldMap({ onSelectLocation }: WorldMapProps) {
                     whileTap={{ scale: 0.9 }}
                     transition={{ type: 'spring', stiffness: 300, damping: 20 }}
                   >
-                    {/* Heart marker */}
                     <circle
                       r={8}
                       fill="#FFB5C5"
@@ -391,6 +393,86 @@ export function WorldMap({ onSelectLocation }: WorldMapProps) {
                       <text
                         textAnchor="middle"
                         y={-25}
+                        style={{
+                          fontFamily: 'Italiana, serif',
+                          fontSize: '12px',
+                          fill: '#5D4037',
+                        }}
+                      >
+                        {location.name}
+                      </text>
+                    </g>
+                  )}
+                </g>
+              </Marker>
+            ))}
+
+            {/* Layer 3: Heart locations (top) */}
+            {locations.filter((l) => heartLocationIds.has(l.id)).map((location) => (
+              <Marker
+                key={location.id}
+                coordinates={location.coordinates}
+                onMouseEnter={() => handleMouseEnter(location.id)}
+                onMouseLeave={handleMouseLeave}
+                onClick={() => onSelectLocation(location.id)}
+                style={{ cursor: 'pointer' }}
+              >
+                <g style={{ transform: `scale(${markerScale})`, transition: 'transform 0.1s ease-out' }}>
+                  <motion.g
+                    initial={{ scale: 0 }}
+                    animate={{ scale: hoveredLocation === location.id ? 1.2 : 1 }}
+                    whileTap={{ scale: 0.9 }}
+                    transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+                  >
+                    {/* Heart shape */}
+                    <path
+                      d="M0-4C-1.5-8-7-8-7-4C-7 0 0 5 0 5S7 0 7-4C7-8 1.5-8 0-4Z"
+                      fill="#FF6B8A"
+                      stroke="#fff"
+                      strokeWidth={1.5}
+                      filter="drop-shadow(0 2px 3px rgba(0,0,0,0.25))"
+                      transform="scale(1.4)"
+                    />
+                    {/* Pulse animation ring */}
+                    <circle
+                      r={10}
+                      fill="none"
+                      stroke="#FF6B8A"
+                      strokeWidth={1}
+                      opacity={0.5}
+                    >
+                      <animate
+                        attributeName="r"
+                        from="10"
+                        to="20"
+                        dur="1.5s"
+                        repeatCount="indefinite"
+                      />
+                      <animate
+                        attributeName="opacity"
+                        from="0.5"
+                        to="0"
+                        dur="1.5s"
+                        repeatCount="indefinite"
+                      />
+                    </circle>
+                  </motion.g>
+
+                  {/* Tooltip */}
+                  {hoveredLocation === location.id && (
+                    <g style={{ pointerEvents: 'none' }}>
+                      <rect
+                        x={-50}
+                        y={-50}
+                        width={100}
+                        height={30}
+                        rx={4}
+                        fill="white"
+                        filter="drop-shadow(0 2px 4px rgba(0,0,0,0.15))"
+                      />
+                      <text
+                        textAnchor="middle"
+                        y={-30}
                         style={{
                           fontFamily: 'Italiana, serif',
                           fontSize: '12px',
