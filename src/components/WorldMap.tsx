@@ -163,12 +163,12 @@ export function WorldMap({ onSelectLocation }: WorldMapProps) {
   }, []);
 
   return (
-    <div className="w-full -mx-4 px-4">
-      <div className="text-center mb-4">
-        <h2 className="text-3xl font-display text-text-dark">Our World</h2>
+    <div className="w-full -mx-4 px-4 -mt-8">
+      <div className="text-center mb-2">
+        <h2 className="text-2xl font-display text-text-dark">Our World</h2>
       </div>
 
-      <div className="relative bg-lavender/20 rounded-2xl overflow-hidden shadow-lg" style={{ height: 'calc(100vh - 200px)', minHeight: '400px' }}>
+      <div className="relative bg-lavender/20 rounded-2xl overflow-hidden shadow-lg" style={{ height: 'calc(100vh - 180px)', minHeight: '300px' }}>
         <ComposableMap
           projection="geoMercator"
           projectionConfig={{
@@ -277,7 +277,7 @@ export function WorldMap({ onSelectLocation }: WorldMapProps) {
       </div>
 
       {/* Legend */}
-      <div className="relative z-10 flex justify-center gap-6 mt-6 text-text-dark/60 text-sm">
+      <div className="relative z-10 flex justify-center gap-6 mt-3 text-text-dark/60 text-sm">
         <div className="flex items-center gap-2">
           <div className="w-3 h-3 rounded-full bg-pink-soft" />
           <span>{locations.length} places visited together</span>

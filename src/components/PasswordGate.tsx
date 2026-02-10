@@ -4,7 +4,7 @@ import { WatercolorHeart } from './WatercolorHeart';
 
 const CORRECT_PASSWORD = 'I love Fagun';
 
-export function PasswordGate({ onSuccess }: { onSuccess: () => void }) {
+export function PasswordGate({ onSuccess, onOpeningStart }: { onSuccess: () => void; onOpeningStart?: () => void }) {
   const [step, setStep] = useState<'question' | 'password'>('question');
   const [password, setPassword] = useState('');
   const [isShaking, setIsShaking] = useState(false);
@@ -18,6 +18,7 @@ export function PasswordGate({ onSuccess }: { onSuccess: () => void }) {
     e.preventDefault();
     if (password.toLowerCase() === CORRECT_PASSWORD.toLowerCase()) {
       setIsOpening(true);
+      onOpeningStart?.();
       setTimeout(onSuccess, 2000);
     } else {
       setIsShaking(true);

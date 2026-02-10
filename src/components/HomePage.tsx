@@ -5,7 +5,6 @@ import { WatercolorHeart } from './WatercolorHeart';
 import { WorldMap, LocationDetail } from './WorldMap';
 import { Timeline } from './Timeline';
 // import { LoveNotes } from './LoveNotes'; // Hidden for now
-import { MusicPlayer } from './MusicPlayer';
 import { Countdown } from './Countdown';
 
 // Letters data - add more entries here
@@ -53,8 +52,7 @@ export function HomePage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-lavender/30 via-cream to-peach/30 font-body">
-      {/* Persistent elements */}
-      <MusicPlayer />
+      {/* Countdown */}
       <Countdown />
 
       {/* Navigation */}
