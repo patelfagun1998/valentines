@@ -271,7 +271,63 @@ export function WorldMap({ onSelectLocation }: WorldMapProps) {
               }
             </Geographies>
 
-            {locations.map((location) => (
+            {/* Render no-photo locations first (below) */}
+            {locations.filter((l) => l.photos.length === 0).map((location) => (
+              <Marker
+                key={location.id}
+                coordinates={location.coordinates}
+                onMouseEnter={() => handleMouseEnter(location.id)}
+                onMouseLeave={handleMouseLeave}
+                onClick={() => onSelectLocation(location.id)}
+                style={{ cursor: 'pointer' }}
+              >
+                <g style={{ transform: `scale(${markerScale})`, transition: 'transform 0.1s ease-out' }}>
+                  <motion.g
+                    initial={{ scale: 0 }}
+                    animate={{ scale: hoveredLocation === location.id ? 1.2 : 1 }}
+                    whileTap={{ scale: 0.9 }}
+                    transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+                  >
+                    <circle
+                      r={6}
+                      fill="#D4C4E8"
+                      stroke="#fff"
+                      strokeWidth={1.5}
+                      filter="drop-shadow(0 1px 2px rgba(0,0,0,0.15))"
+                    />
+                  </motion.g>
+
+                  {/* Tooltip */}
+                  {hoveredLocation === location.id && (
+                    <g style={{ pointerEvents: 'none' }}>
+                      <rect
+                        x={-50}
+                        y={-35}
+                        width={100}
+                        height={24}
+                        rx={4}
+                        fill="white"
+                        filter="drop-shadow(0 2px 4px rgba(0,0,0,0.15))"
+                      />
+                      <text
+                        textAnchor="middle"
+                        y={-18}
+                        style={{
+                          fontFamily: 'Italiana, serif',
+                          fontSize: '11px',
+                          fill: '#5D4037',
+                        }}
+                      >
+                        {location.name}
+                      </text>
+                    </g>
+                  )}
+                </g>
+              </Marker>
+            ))}
+
+            {/* Render locations with photos on top */}
+            {locations.filter((l) => l.photos.length > 0).map((location) => (
               <Marker
                 key={location.id}
                 coordinates={location.coordinates}
