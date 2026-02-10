@@ -5,7 +5,6 @@ import {
   Geographies,
   Geography,
   Marker,
-  ZoomableGroup,
 } from 'react-simple-maps';
 import { WatercolorHeart } from './WatercolorHeart';
 import photosManifest from '../data/photos-manifest.json';
@@ -169,7 +168,6 @@ export function WorldMap({ onSelectLocation }: WorldMapProps) {
           }}
           style={{ width: '100%', height: '100%' }}
         >
-          <ZoomableGroup>
             <Geographies geography={geoUrl}>
               {({ geographies }) =>
                 geographies.map((geo) => (
@@ -264,7 +262,6 @@ export function WorldMap({ onSelectLocation }: WorldMapProps) {
                 )}
               </Marker>
             ))}
-          </ZoomableGroup>
         </ComposableMap>
       </div>
 
