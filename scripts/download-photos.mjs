@@ -46,6 +46,36 @@ const locations = [
     name: 'Amsterdam',
     googlePhotosLink: 'https://photos.app.goo.gl/QH3qzPn7yibZ2ZoP9',
   },
+  {
+    id: 'paris',
+    name: 'Paris',
+    googlePhotosLink: 'https://photos.app.goo.gl/mu2ZHATgUaR1cRDK9',
+  },
+  {
+    id: 'cologne',
+    name: 'Cologne',
+    googlePhotosLink: 'https://photos.app.goo.gl/TeoMVTVKqoqKjAes5',
+  },
+  {
+    id: 'berlin',
+    name: 'Berlin',
+    googlePhotosLink: 'https://photos.app.goo.gl/YnQKtgp3GGLR6tKp7',
+  },
+  {
+    id: 'mallorca',
+    name: 'Mallorca',
+    googlePhotosLink: 'https://photos.app.goo.gl/Gk12ZW35phxno2L79',
+  },
+  {
+    id: 'barcelona',
+    name: 'Barcelona',
+    googlePhotosLink: 'https://photos.app.goo.gl/PH9aSdcVvwwwQgsH9',
+  },
+  {
+    id: 'orlando',
+    name: 'Orlando',
+    googlePhotosLink: 'https://photos.app.goo.gl/dA1JAYbrnzFZc3ev9',
+  },
 ];
 
 const REQUEST_TIMEOUT = 30000;

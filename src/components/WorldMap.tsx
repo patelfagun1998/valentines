@@ -65,6 +65,48 @@ const locationConfigs: LocationConfig[] = [
     date: '',
     description: '',
   },
+  {
+    id: 'paris',
+    name: 'Paris',
+    coordinates: [2.3522, 48.8566] as [number, number],
+    date: '',
+    description: '',
+  },
+  {
+    id: 'cologne',
+    name: 'Cologne',
+    coordinates: [6.9603, 50.9375] as [number, number],
+    date: '',
+    description: '',
+  },
+  {
+    id: 'berlin',
+    name: 'Berlin',
+    coordinates: [13.405, 52.52] as [number, number],
+    date: '',
+    description: '',
+  },
+  {
+    id: 'mallorca',
+    name: 'Mallorca',
+    coordinates: [2.6502, 39.5696] as [number, number],
+    date: '',
+    description: '',
+  },
+  {
+    id: 'barcelona',
+    name: 'Barcelona',
+    coordinates: [2.1734, 41.3851] as [number, number],
+    date: '',
+    description: '',
+  },
+  {
+    id: 'orlando',
+    name: 'Orlando',
+    coordinates: [-81.3792, 28.5383] as [number, number],
+    date: '',
+    description: '',
+  },
 ];
 
 interface LocationConfig {
@@ -227,7 +269,7 @@ export function WorldMap({ onSelectLocation }: WorldMapProps) {
       </div>
 
       {/* Legend */}
-      <div className="flex justify-center gap-6 mt-6 text-text-dark/60 text-sm">
+      <div className="relative z-10 flex justify-center gap-6 mt-6 text-text-dark/60 text-sm">
         <div className="flex items-center gap-2">
           <div className="w-3 h-3 rounded-full bg-pink-soft" />
           <span>{locations.length} places visited together</span>

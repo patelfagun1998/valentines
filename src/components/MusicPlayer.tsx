@@ -11,7 +11,7 @@ const playlist = [
 
 export function MusicPlayer() {
   const [currentTrack, setCurrentTrack] = useState(0);
-  const [isExpanded, setIsExpanded] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(true); // Start expanded
 
   const currentSong = playlist[currentTrack];
 
@@ -54,7 +54,7 @@ export function MusicPlayer() {
             {/* YouTube Player */}
             <div className="relative w-full aspect-video rounded-lg overflow-hidden mb-3">
               <iframe
-                src={`https://www.youtube.com/embed/${currentSong.id}?autoplay=0&rel=0`}
+                src={`https://www.youtube.com/embed/${currentSong.id}?autoplay=1&rel=0`}
                 title={currentSong.title}
                 className="absolute inset-0 w-full h-full"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
