@@ -214,6 +214,8 @@ export function WorldMap({ onSelectLocation }: WorldMapProps) {
 
   // Special heart locations — rendered on the top layer
   const heartLocationIds = new Set(['seattle', 'vancouver', 'san-francisco', 'new-york']);
+  // Visited locations that don't have photos yet — render like regular visited locations
+  const visitedNoPhotos = new Set(['boston']);
 
   // Prevent page scroll while map is visible
   useEffect(() => {
@@ -274,8 +276,8 @@ export function WorldMap({ onSelectLocation }: WorldMapProps) {
               }
             </Geographies>
 
-            {/* Layer 1: No-photo locations (bottom) */}
-            {locations.filter((l) => l.photos.length === 0 && !heartLocationIds.has(l.id)).map((location) => (
+            {/* Layer 1: No-photo locations without content (bottom) */}
+            {locations.filter((l) => l.photos.length === 0 && !heartLocationIds.has(l.id) && !visitedNoPhotos.has(l.id)).map((location) => (
               <Marker
                 key={location.id}
                 coordinates={location.coordinates}
@@ -329,8 +331,8 @@ export function WorldMap({ onSelectLocation }: WorldMapProps) {
               </Marker>
             ))}
 
-            {/* Layer 2: Regular locations with photos (middle) */}
-            {locations.filter((l) => l.photos.length > 0 && !heartLocationIds.has(l.id)).map((location) => (
+            {/* Layer 2: Regular visited locations (middle) */}
+            {locations.filter((l) => (l.photos.length > 0 || visitedNoPhotos.has(l.id)) && !heartLocationIds.has(l.id)).map((location) => (
               <Marker
                 key={location.id}
                 coordinates={location.coordinates}
