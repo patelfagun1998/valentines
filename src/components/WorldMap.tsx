@@ -187,10 +187,8 @@ export function WorldMap({ onSelectLocation }: WorldMapProps) {
   const [zoom, setZoom] = useState(1);
   const hoverTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-  // Scale markers inversely with zoom
-  const markerRadius = 8 / zoom;
-  const pulseRadius = 8 / zoom;
-  const strokeWidth = 2 / zoom;
+  // Scale factor for markers (inverse of zoom for consistent visual size)
+  const markerScale = 1 / zoom;
 
   // Prevent page scroll while map is visible
   useEffect(() => {
@@ -260,70 +258,72 @@ export function WorldMap({ onSelectLocation }: WorldMapProps) {
                 onClick={() => onSelectLocation(location.id)}
                 style={{ cursor: 'pointer' }}
               >
-                <motion.g
-                  initial={{ scale: 0 }}
-                  animate={{ scale: hoveredLocation === location.id ? 1.3 : 1 }}
-                  whileTap={{ scale: 0.9 }}
-                  transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-                >
-                  {/* Heart marker */}
-                  <circle
-                    r={markerRadius}
-                    fill="#FFB5C5"
-                    stroke="#fff"
-                    strokeWidth={strokeWidth}
-                    filter="drop-shadow(0 2px 3px rgba(0,0,0,0.2))"
-                  />
-                  {/* Pulse animation ring */}
-                  <circle
-                    r={pulseRadius}
-                    fill="none"
-                    stroke="#FFB5C5"
-                    strokeWidth={1 / zoom}
-                    opacity={0.5}
+                <g style={{ transform: `scale(${markerScale})`, transition: 'transform 0.1s ease-out' }}>
+                  <motion.g
+                    initial={{ scale: 0 }}
+                    animate={{ scale: hoveredLocation === location.id ? 1.2 : 1 }}
+                    whileTap={{ scale: 0.9 }}
+                    transition={{ type: 'spring', stiffness: 300, damping: 20 }}
                   >
-                    <animate
-                      attributeName="r"
-                      from={`${pulseRadius}`}
-                      to={`${pulseRadius * 2}`}
-                      dur="1.5s"
-                      repeatCount="indefinite"
+                    {/* Heart marker */}
+                    <circle
+                      r={8}
+                      fill="#FFB5C5"
+                      stroke="#fff"
+                      strokeWidth={2}
+                      filter="drop-shadow(0 2px 3px rgba(0,0,0,0.2))"
                     />
-                    <animate
-                      attributeName="opacity"
-                      from="0.5"
-                      to="0"
-                      dur="1.5s"
-                      repeatCount="indefinite"
-                    />
-                  </circle>
-                </motion.g>
-
-                {/* Tooltip - pointer-events none prevents interference */}
-                {hoveredLocation === location.id && (
-                  <g style={{ pointerEvents: 'none' }}>
-                    <rect
-                      x={-50 / zoom}
-                      y={-45 / zoom}
-                      width={100 / zoom}
-                      height={30 / zoom}
-                      rx={4 / zoom}
-                      fill="white"
-                      filter="drop-shadow(0 2px 4px rgba(0,0,0,0.15))"
-                    />
-                    <text
-                      textAnchor="middle"
-                      y={-25 / zoom}
-                      style={{
-                        fontFamily: 'Italiana, serif',
-                        fontSize: `${12 / zoom}px`,
-                        fill: '#5D4037',
-                      }}
+                    {/* Pulse animation ring */}
+                    <circle
+                      r={8}
+                      fill="none"
+                      stroke="#FFB5C5"
+                      strokeWidth={1}
+                      opacity={0.5}
                     >
-                      {location.name}
-                    </text>
-                  </g>
-                )}
+                      <animate
+                        attributeName="r"
+                        from="8"
+                        to="16"
+                        dur="1.5s"
+                        repeatCount="indefinite"
+                      />
+                      <animate
+                        attributeName="opacity"
+                        from="0.5"
+                        to="0"
+                        dur="1.5s"
+                        repeatCount="indefinite"
+                      />
+                    </circle>
+                  </motion.g>
+
+                  {/* Tooltip */}
+                  {hoveredLocation === location.id && (
+                    <g style={{ pointerEvents: 'none' }}>
+                      <rect
+                        x={-50}
+                        y={-45}
+                        width={100}
+                        height={30}
+                        rx={4}
+                        fill="white"
+                        filter="drop-shadow(0 2px 4px rgba(0,0,0,0.15))"
+                      />
+                      <text
+                        textAnchor="middle"
+                        y={-25}
+                        style={{
+                          fontFamily: 'Italiana, serif',
+                          fontSize: '12px',
+                          fill: '#5D4037',
+                        }}
+                      >
+                        {location.name}
+                      </text>
+                    </g>
+                  )}
+                </g>
               </Marker>
             ))}
           </ZoomableGroup>
@@ -348,6 +348,7 @@ interface LocationDetailProps {
 
 export function LocationDetail({ locationId, onBack }: LocationDetailProps) {
   const location = locations.find((l) => l.id === locationId);
+  const [selectedPhoto, setSelectedPhoto] = useState<number | null>(null);
 
   if (!location) {
     return <div>Location not found</div>;
@@ -388,8 +389,10 @@ export function LocationDetail({ locationId, onBack }: LocationDetailProps) {
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: Math.min(i * 0.05, 0.5) }}
-              className="aspect-square bg-white p-2 shadow-md"
+              className="aspect-square bg-white p-2 shadow-md cursor-pointer hover:shadow-lg transition-shadow"
               style={{ transform: `rotate(${(i % 2 === 0 ? -1 : 1) * 2}deg)` }}
+              onClick={() => setSelectedPhoto(i)}
+              whileHover={{ scale: 1.02, rotate: 0 }}
             >
               <img
                 src={`/photos/${location.photosId}/${filename}`}
@@ -406,6 +409,110 @@ export function LocationDetail({ locationId, onBack }: LocationDetailProps) {
           <WatercolorHeart size={60} animate={false} />
           <p className="text-text-dark/50 mt-4 italic">Photos coming soon</p>
         </div>
+      )}
+
+      {/* Photo Lightbox */}
+      <AnimatePresence>
+        {selectedPhoto !== null && (
+          <LightboxOverlay
+            location={location}
+            selectedPhoto={selectedPhoto}
+            onClose={() => setSelectedPhoto(null)}
+            onPrev={() => setSelectedPhoto(selectedPhoto - 1)}
+            onNext={() => setSelectedPhoto(selectedPhoto + 1)}
+          />
+        )}
+      </AnimatePresence>
+    </motion.div>
+  );
+}
+
+function LightboxOverlay({
+  location,
+  selectedPhoto,
+  onClose,
+  onPrev,
+  onNext,
+}: {
+  location: Location;
+  selectedPhoto: number;
+  onClose: () => void;
+  onPrev: () => void;
+  onNext: () => void;
+}) {
+  const hasPrev = selectedPhoto > 0;
+  const hasNext = selectedPhoto < location.photos.length - 1;
+
+  // Keyboard navigation
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+      if (e.key === 'ArrowLeft' && hasPrev) onPrev();
+      if (e.key === 'ArrowRight' && hasNext) onNext();
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [hasPrev, hasNext, onClose, onPrev, onNext]);
+
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4"
+      onClick={onClose}
+    >
+      {/* Image container */}
+      <motion.div
+        initial={{ scale: 0.9, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        exit={{ scale: 0.9, opacity: 0 }}
+        className="relative max-w-4xl max-h-[90vh] bg-white rounded-lg overflow-hidden shadow-2xl"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <img
+          src={`/photos/${location.photosId}/${location.photos[selectedPhoto]}`}
+          alt={`${location.name} photo ${selectedPhoto + 1}`}
+          className="max-w-full max-h-[80vh] object-contain"
+        />
+        <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-4 text-white">
+          <p className="font-display text-xl">{location.name}</p>
+          <p className="text-white/70 text-sm">
+            Photo {selectedPhoto + 1} of {location.photos.length}
+          </p>
+        </div>
+
+        {/* Close button */}
+        <button
+          onClick={onClose}
+          className="absolute top-4 right-4 w-10 h-10 bg-black/40 hover:bg-black/60 rounded-full flex items-center justify-center text-white text-xl transition-colors"
+        >
+          ×
+        </button>
+      </motion.div>
+
+      {/* Navigation arrows — placed on the overlay so they're never clipped */}
+      {hasPrev && (
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            onPrev();
+          }}
+          className="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-black/50 hover:bg-black/70 rounded-full flex items-center justify-center text-white text-2xl transition-colors z-10"
+        >
+          ‹
+        </button>
+      )}
+      {hasNext && (
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            onNext();
+          }}
+          className="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-black/50 hover:bg-black/70 rounded-full flex items-center justify-center text-white text-2xl transition-colors z-10"
+        >
+          ›
+        </button>
       )}
     </motion.div>
   );
