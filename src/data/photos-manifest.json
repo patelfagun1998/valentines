@@ -445,5 +445,11 @@
       "photo_011.jpg",
       "photo_012.jpg"
     ]
+  },
+  "olympic-national-park": {
+    "name": "Olympic National Park",
+    "photos": [
+      "photo_001.jpg"
+    ]
   }
 }

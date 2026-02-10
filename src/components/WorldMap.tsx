@@ -138,6 +138,21 @@ const locationConfigs: LocationConfig[] = [
     photosId: 'socal-trip',
   },
   {
+    id: 'joshua-tree',
+    name: 'Joshua Tree',
+    coordinates: [-116.3131, 34.1347] as [number, number],
+    date: '',
+    description: '',
+    photosId: 'socal-trip',
+  },
+  {
+    id: 'olympic-national-park',
+    name: 'Olympic National Park',
+    coordinates: [-123.4979, 47.8021] as [number, number],
+    date: '',
+    description: '',
+  },
+  {
     id: 'ahmedabad',
     name: 'Ahmedabad',
     coordinates: [72.5714, 23.0225] as [number, number],
