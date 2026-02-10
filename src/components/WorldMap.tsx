@@ -23,14 +23,48 @@ const locationConfigs: LocationConfig[] = [
     date: '',
     description: '',
   },
-  // Add more locations:
-  // {
-  //   id: 'paris',
-  //   name: 'Paris',
-  //   coordinates: [2.3522, 48.8566] as [number, number],
-  //   date: 'June 2024',
-  //   description: 'City of love',
-  // },
+  {
+    id: 'new-york',
+    name: 'New York',
+    coordinates: [-74.006, 40.7128] as [number, number],
+    date: '',
+    description: '',
+  },
+  {
+    id: 'lake-tahoe',
+    name: 'Lake Tahoe',
+    coordinates: [-120.0324, 39.0968] as [number, number],
+    date: '',
+    description: '',
+  },
+  {
+    id: 'kauai',
+    name: 'Kauai',
+    coordinates: [-159.526, 22.0964] as [number, number],
+    date: '',
+    description: '',
+  },
+  {
+    id: 'san-francisco',
+    name: 'San Francisco',
+    coordinates: [-122.4194, 37.7749] as [number, number],
+    date: '',
+    description: '',
+  },
+  {
+    id: 'vancouver',
+    name: 'Vancouver',
+    coordinates: [-123.1216, 49.2827] as [number, number],
+    date: '',
+    description: '',
+  },
+  {
+    id: 'amsterdam',
+    name: 'Amsterdam',
+    coordinates: [4.9041, 52.3676] as [number, number],
+    date: '',
+    description: '',
+  },
 ];
 
 interface LocationConfig {
@@ -62,19 +96,19 @@ export function WorldMap({ onSelectLocation }: WorldMapProps) {
   const [hoveredLocation, setHoveredLocation] = useState<string | null>(null);
 
   return (
-    <div className="w-full max-w-4xl mx-auto">
-      <div className="text-center mb-6">
+    <div className="w-full -mx-4 px-4">
+      <div className="text-center mb-4">
         <h2 className="text-3xl font-display text-text-dark">Our World</h2>
       </div>
 
-      <div className="relative bg-lavender/20 rounded-2xl overflow-hidden shadow-lg">
+      <div className="relative bg-lavender/20 rounded-2xl overflow-hidden shadow-lg" style={{ height: 'calc(100vh - 200px)', minHeight: '400px' }}>
         <ComposableMap
           projection="geoMercator"
           projectionConfig={{
-            scale: 120,
-            center: [0, 30],
+            scale: 150,
+            center: [-40, 35],
           }}
-          style={{ width: '100%', height: 'auto' }}
+          style={{ width: '100%', height: '100%' }}
         >
           <ZoomableGroup>
             <Geographies geography={geoUrl}>
@@ -224,7 +258,7 @@ export function LocationDetail({ locationId, onBack }: LocationDetailProps) {
         <p className="text-center text-text-dark/70 mb-8">{location.description}</p>
       )}
 
-      {/* Photo grid */}
+      {/* Photo grid with lazy loading */}
       {hasPhotos ? (
         <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
           {location.photos.map((filename, i) => (
@@ -232,7 +266,7 @@ export function LocationDetail({ locationId, onBack }: LocationDetailProps) {
               key={i}
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: i * 0.1 }}
+              transition={{ delay: Math.min(i * 0.05, 0.5) }}
               className="aspect-square bg-white p-2 shadow-md"
               style={{ transform: `rotate(${(i % 2 === 0 ? -1 : 1) * 2}deg)` }}
             >
@@ -240,6 +274,8 @@ export function LocationDetail({ locationId, onBack }: LocationDetailProps) {
                 src={`/photos/${location.id}/${filename}`}
                 alt={`${location.name} photo ${i + 1}`}
                 className="w-full h-full object-cover"
+                loading="lazy"
+                decoding="async"
               />
             </motion.div>
           ))}

@@ -16,7 +16,36 @@ const locations = [
     name: 'Seattle',
     googlePhotosLink: 'https://photos.app.goo.gl/7P6z2JjEF24G5NN58',
   },
-  // Add more locations here
+  {
+    id: 'new-york',
+    name: 'New York',
+    googlePhotosLink: 'https://photos.app.goo.gl/qrteA37sDmG7GGtVA',
+  },
+  {
+    id: 'lake-tahoe',
+    name: 'Lake Tahoe',
+    googlePhotosLink: 'https://photos.app.goo.gl/BbvXKvphV8WLUCrk7',
+  },
+  {
+    id: 'kauai',
+    name: 'Kauai',
+    googlePhotosLink: 'https://photos.app.goo.gl/bSAxudWt1uaBMnQr5',
+  },
+  {
+    id: 'san-francisco',
+    name: 'San Francisco',
+    googlePhotosLink: 'https://photos.app.goo.gl/onm5RMYKnDM7qGQm7',
+  },
+  {
+    id: 'vancouver',
+    name: 'Vancouver',
+    googlePhotosLink: 'https://photos.app.goo.gl/YtQ8p8MtngTDe6eZ9',
+  },
+  {
+    id: 'amsterdam',
+    name: 'Amsterdam',
+    googlePhotosLink: 'https://photos.app.goo.gl/QH3qzPn7yibZ2ZoP9',
+  },
 ];
 
 const REQUEST_TIMEOUT = 30000;
