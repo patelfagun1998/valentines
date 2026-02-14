@@ -1,27 +1,80 @@
 import { motion } from 'framer-motion';
 import { WatercolorHeart } from './WatercolorHeart';
 
-// Timeline milestones - add your dates here
+// Timeline milestones
 const milestones = [
   {
     id: '1',
-    date: 'January 2023',
-    title: '[First milestone]',
-    description: '[Description]',
+    date: 'September 11, 2021',
+    title: 'Met for the first time',
+    description: 'Seattle, WA',
   },
   {
     id: '2',
-    date: 'March 2023',
-    title: '[Second milestone]',
-    description: '[Description]',
+    date: 'September 18, 2021',
+    title: 'First date',
+    description: 'Seattle, WA',
   },
   {
     id: '3',
-    date: 'June 2023',
-    title: '[Third milestone]',
-    description: '[Description]',
+    date: 'September 21, 2021',
+    title: 'First kiss',
+    description: 'Bellevue, WA',
   },
-  // Add more milestones...
+  {
+    id: '4',
+    date: 'March 2022',
+    title: 'Dhanu gets a job at Google',
+    description: 'Decides to move to SF',
+  },
+  {
+    id: '5',
+    date: 'July 2022',
+    title: 'Dhanu moves to SF',
+    description: '',
+  },
+  {
+    id: '6',
+    date: 'September 2023',
+    title: 'Dhanu moves to Vancouver',
+    description: '',
+  },
+  {
+    id: '7',
+    date: 'December 2023',
+    title: 'Fagun gets a job at Meta',
+    description: 'Decides to move to SF',
+  },
+  {
+    id: '8',
+    date: 'March 2024',
+    title: 'Fagun moves to SF',
+    description: '',
+  },
+  {
+    id: '9',
+    date: 'November 2024',
+    title: 'Dhanu moves back to SF',
+    description: '',
+  },
+  {
+    id: '10',
+    date: 'August 2025',
+    title: 'Dhanu and Fagun move to NYC together',
+    description: '',
+  },
+  {
+    id: '11',
+    date: 'November 8, 2025',
+    title: 'Dhanu and Fagun get engaged!!!',
+    description: 'NYC, NY',
+  },
+  {
+    id: '12',
+    date: 'January 2026',
+    title: 'Dhanu and Fagun visit each other\'s families',
+    description: '',
+  },
 ];
 
 export function Timeline() {
