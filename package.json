@@ -4,14 +4,10 @@
   "version": "1.0.0",
   "scripts": {
     "dev": "astro dev",
-    "download-photos": "node scripts/download-photos.mjs",
-    "prebuild": "node scripts/download-photos.mjs",
     "build": "astro build",
     "preview": "astro preview",
     "lint": "eslint src --ext .ts,.tsx,.astro",
-    "format": "prettier --write src",
-    "test": "vitest run",
-    "test:watch": "vitest"
+    "format": "prettier --write src"
   },
   "dependencies": {
     "@astrojs/react": "^4.2.0",
