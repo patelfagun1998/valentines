@@ -8,19 +8,4 @@ import { HomePage } from '../components/HomePage';
   <PasswordGateWrapper client:load>
     <HomePage client:load />
   </PasswordGateWrapper>
-
-  <!-- Dev reset button -->
-  <button
-    id="reset-btn"
-    class="fixed bottom-4 right-4 bg-red-500/80 text-white text-xs px-3 py-1.5 rounded font-mono hover:bg-red-500 transition-colors"
-  >
-    Reset Auth (Dev)
-  </button>
-
-  <script>
-    document.getElementById('reset-btn')?.addEventListener('click', () => {
-      localStorage.removeItem('valentines_authenticated');
-      window.location.reload();
-    });
-  </script>
 </Layout>
