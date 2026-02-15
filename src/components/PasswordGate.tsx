@@ -2,7 +2,16 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { WatercolorHeart } from './WatercolorHeart';
 
-const CORRECT_PASSWORD = 'I love Fagun';
+// Password hash injected at build time via environment variable
+const PASSWORD_HASH = import.meta.env.PUBLIC_PASSWORD_HASH;
+
+async function hashPassword(password: string): Promise<string> {
+  const encoder = new TextEncoder();
+  const data = encoder.encode(password.toLowerCase());
+  const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+  return hashArray.map((b) => b.toString(16).padStart(2, '0')).join('');
+}
 
 interface PasswordGateProps {
   onSuccess: () => void;
@@ -20,9 +29,10 @@ export function PasswordGate({ onSuccess, onPublicAccess, onOpeningStart }: Pass
     setStep('password');
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (password.toLowerCase() === CORRECT_PASSWORD.toLowerCase()) {
+    const inputHash = await hashPassword(password);
+    if (inputHash === PASSWORD_HASH) {
       setIsOpening(true);
       onOpeningStart?.();
       setTimeout(onSuccess, 2000);

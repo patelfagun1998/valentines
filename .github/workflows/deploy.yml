@@ -31,6 +31,8 @@ jobs:
 
       - name: Build site (includes photo download)
         run: npm run build
+        env:
+          PUBLIC_PASSWORD_HASH: ${{ secrets.PASSWORD_HASH }}
 
       - name: Create Pages project if not exists
         uses: cloudflare/wrangler-action@v3
