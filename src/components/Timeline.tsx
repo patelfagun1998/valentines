@@ -77,7 +77,16 @@ const milestones = [
   },
 ];
 
-export function Timeline() {
+interface TimelineProps {
+  isPublicMode?: boolean;
+}
+
+export function Timeline({ isPublicMode = false }: TimelineProps) {
+  // Filter out "First kiss" (id: '3') in public mode
+  const visibleMilestones = isPublicMode
+    ? milestones.filter((m) => m.id !== '3')
+    : milestones;
+
   return (
     <div className="max-w-2xl mx-auto">
       <div className="text-center mb-10">
@@ -88,7 +97,7 @@ export function Timeline() {
         {/* Vertical line */}
         <div className="absolute left-8 top-0 bottom-0 w-0.5 bg-gradient-to-b from-pink-soft via-lavender to-mint" />
 
-        {milestones.map((milestone, i) => (
+        {visibleMilestones.map((milestone, i) => (
           <motion.div
             key={milestone.id}
             initial={{ opacity: 0, x: -20 }}
@@ -114,7 +123,7 @@ export function Timeline() {
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: milestones.length * 0.15 }}
+          transition={{ delay: visibleMilestones.length * 0.15 }}
           className="relative pl-20"
         >
           <div className="absolute left-4 top-1">

@@ -185,3 +185,27 @@ const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)
 - Password is client-side only (not secure, but fine for this use case)
 - No sensitive data in the repo
 - Keep photos in `src/assets/` not `public/` if you want them processed
+
+## Status Tracking
+
+### Updating status.md
+Update `status.md` when meaningful changes occur:
+- **When to update:**
+  - New feature implemented or existing feature significantly changed
+  - New component added or removed
+  - New page created
+  - Photos added to galleries
+  - Bug fixes that affect feature status
+  - Build/test status changes
+- **What to update:**
+  - `Last Updated` date at the top
+  - Feature status table if a feature changed
+  - Components table if components added/removed
+  - Recent Changes table (add new entry, keep last 5)
+  - Known Issues if bugs discovered or fixed
+  - Upcoming Work as items complete or new items identified
+- **Command:** After making meaningful changes, run:
+  ```bash
+  # Review and update status.md manually, then commit with:
+  bash scripts/push-pr.sh "Update status.md"
+  ```

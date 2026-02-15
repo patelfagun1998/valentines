@@ -7,6 +7,8 @@ import { Timeline } from './Timeline';
 // import { LoveNotes } from './LoveNotes'; // Hidden for now
 import { Countdown } from './Countdown';
 
+const PUBLIC_KEY = 'valentines_public';
+
 // Import letter markdown files
 import valentines2025Raw from '../assets/fagun_valentines.md?raw';
 
@@ -55,6 +57,14 @@ export function HomePage() {
   const [selectedLetterId, setSelectedLetterId] = useState<string | null>(null);
   const [selectedLocationId, setSelectedLocationId] = useState<string | null>(null);
 
+  // Read public mode from localStorage (lazy init for SSR safety)
+  const [isPublicMode] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return localStorage.getItem(PUBLIC_KEY) === 'true';
+    }
+    return false;
+  });
+
   const openLatestLetter = () => {
     if (letters.length > 0) {
       setSelectedLetterId(letters[0].id);
@@ -91,16 +101,17 @@ export function HomePage() {
       {/* Content */}
       <main className="py-12 px-4">
         <AnimatePresence mode="wait">
-          {activeTab === 'home' && <WelcomeContent key="home" onOpenLetter={openLatestLetter} />}
-          {activeTab === 'letter' && <LetterContent key="letter" initialLetterId={selectedLetterId} onClearSelection={() => setSelectedLetterId(null)} />}
+          {activeTab === 'home' && <WelcomeContent key="home" onOpenLetter={openLatestLetter} isPublicMode={isPublicMode} />}
+          {activeTab === 'letter' && <LetterContent key="letter" initialLetterId={selectedLetterId} onClearSelection={() => setSelectedLetterId(null)} isPublicMode={isPublicMode} />}
           {activeTab === 'map' && (
             <MapContent
               key="map"
               selectedLocationId={selectedLocationId}
               onSelectLocation={setSelectedLocationId}
+              isPublicMode={isPublicMode}
             />
           )}
-          {activeTab === 'timeline' && <TimelineContent key="timeline" />}
+          {activeTab === 'timeline' && <TimelineContent key="timeline" isPublicMode={isPublicMode} />}
           {/* {activeTab === 'notes' && <LoveNotesContent key="notes" />} */}
         </AnimatePresence>
       </main>
@@ -108,7 +119,7 @@ export function HomePage() {
   );
 }
 
-function WelcomeContent({ onOpenLetter }: { onOpenLetter: () => void }) {
+function WelcomeContent({ onOpenLetter, isPublicMode }: { onOpenLetter: () => void; isPublicMode: boolean }) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -118,10 +129,10 @@ function WelcomeContent({ onOpenLetter }: { onOpenLetter: () => void }) {
       className="text-center max-w-2xl mx-auto"
     >
       <h1 className="text-5xl font-display text-text-dark mb-4">
-        Welcome, Dhanushikka
+        {isPublicMode ? 'Welcome, Visitor' : 'Welcome, Dhanushikka'}
       </h1>
       <p className="text-xl text-text-dark/70 mb-10">
-        You made it inside!
+        {isPublicMode ? 'Feel free to look around!' : 'You made it inside!'}
       </p>
 
       {/* Clickable Envelope */}
@@ -184,7 +195,7 @@ function WelcomeContent({ onOpenLetter }: { onOpenLetter: () => void }) {
   );
 }
 
-function LetterContent({ initialLetterId, onClearSelection }: { initialLetterId: string | null; onClearSelection: () => void }) {
+function LetterContent({ initialLetterId, onClearSelection, isPublicMode }: { initialLetterId: string | null; onClearSelection: () => void; isPublicMode: boolean }) {
   const [selectedLetter, setSelectedLetter] = useState<string | null>(initialLetterId);
   const activeLetter = letters.find((l) => l.id === selectedLetter);
 
@@ -259,12 +270,30 @@ function LetterContent({ initialLetterId, onClearSelection }: { initialLetterId:
               <span>Back to letters</span>
             </button>
 
-            <div className="text-center mb-6">
-              <p className="text-text-dark/60">{activeLetter?.date}</p>
-              <h2 className="text-2xl font-display text-text-dark">{activeLetter?.title}</h2>
-            </div>
-
-            <Letter content={activeLetter?.content} />
+            {isPublicMode ? (
+              <div className="text-center">
+                <div className="text-center mb-6">
+                  <p className="text-text-dark/60">{activeLetter?.date}</p>
+                  <h2 className="text-2xl font-display text-text-dark">{activeLetter?.title}</h2>
+                </div>
+                <div className="max-w-sm mx-auto">
+                  <img
+                    src="/no.gif"
+                    alt="Access denied"
+                    className="w-full rounded-lg shadow-lg"
+                  />
+                  <p className="mt-4 text-text-dark/60 italic">This letter is for Dhanushikka only!</p>
+                </div>
+              </div>
+            ) : (
+              <>
+                <div className="text-center mb-6">
+                  <p className="text-text-dark/60">{activeLetter?.date}</p>
+                  <h2 className="text-2xl font-display text-text-dark">{activeLetter?.title}</h2>
+                </div>
+                <Letter content={activeLetter?.content} />
+              </>
+            )}
           </motion.div>
         )}
       </AnimatePresence>
@@ -275,9 +304,11 @@ function LetterContent({ initialLetterId, onClearSelection }: { initialLetterId:
 function MapContent({
   selectedLocationId,
   onSelectLocation,
+  isPublicMode,
 }: {
   selectedLocationId: string | null;
   onSelectLocation: (id: string | null) => void;
+  isPublicMode: boolean;
 }) {
   return (
     <motion.div
@@ -294,6 +325,7 @@ function MapContent({
             key="detail"
             locationId={selectedLocationId}
             onBack={() => onSelectLocation(null)}
+            isPublicMode={isPublicMode}
           />
         )}
       </AnimatePresence>
@@ -301,7 +333,7 @@ function MapContent({
   );
 }
 
-function TimelineContent() {
+function TimelineContent({ isPublicMode }: { isPublicMode: boolean }) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -309,7 +341,7 @@ function TimelineContent() {
       exit={{ opacity: 0, y: -20 }}
       transition={{ duration: 0.3 }}
     >
-      <Timeline />
+      <Timeline isPublicMode={isPublicMode} />
     </motion.div>
   );
 }

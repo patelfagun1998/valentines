@@ -4,7 +4,13 @@ import { WatercolorHeart } from './WatercolorHeart';
 
 const CORRECT_PASSWORD = 'I love Fagun';
 
-export function PasswordGate({ onSuccess, onOpeningStart }: { onSuccess: () => void; onOpeningStart?: () => void }) {
+interface PasswordGateProps {
+  onSuccess: () => void;
+  onPublicAccess?: () => void;
+  onOpeningStart?: () => void;
+}
+
+export function PasswordGate({ onSuccess, onPublicAccess, onOpeningStart }: PasswordGateProps) {
   const [step, setStep] = useState<'question' | 'password'>('question');
   const [password, setPassword] = useState('');
   const [isShaking, setIsShaking] = useState(false);
@@ -65,39 +71,49 @@ export function PasswordGate({ onSuccess, onOpeningStart }: { onSuccess: () => v
                       <h1 className="text-2xl font-display text-text-dark mb-6">
                         Are you Dhanushikka?
                       </h1>
-                      <motion.button
-                        onClick={handleYesClick}
-                        className="text-text-dark font-body text-lg px-6 py-2.5 relative"
-                        whileHover={{ scale: 1.03 }}
-                        whileTap={{ scale: 0.98 }}
-                      >
-                        {/* Cloud/bouncy outline */}
-                        <svg
-                          className="absolute inset-0 w-full h-full"
-                          viewBox="0 0 120 50"
-                          preserveAspectRatio="none"
+                      <div className="flex flex-col gap-3">
+                        <motion.button
+                          onClick={handleYesClick}
+                          className="text-text-dark font-body text-lg px-6 py-2.5 relative"
+                          whileHover={{ scale: 1.03 }}
+                          whileTap={{ scale: 0.98 }}
                         >
-                          <path
-                            d="M10,25
-                               Q5,15 15,10
-                               Q25,5 35,8
-                               Q45,3 55,6
-                               Q65,2 75,7
-                               Q85,4 95,10
-                               Q110,8 115,20
-                               Q120,30 110,38
-                               Q100,48 85,45
-                               Q70,50 55,46
-                               Q40,50 25,45
-                               Q10,48 5,38
-                               Q0,28 10,25 Z"
-                            fill="none"
-                            stroke="#5D4037"
-                            strokeWidth="1.5"
-                          />
-                        </svg>
-                        <span className="relative z-10">Prove it</span>
-                      </motion.button>
+                          {/* Cloud/bouncy outline */}
+                          <svg
+                            className="absolute inset-0 w-full h-full"
+                            viewBox="0 0 120 50"
+                            preserveAspectRatio="none"
+                          >
+                            <path
+                              d="M10,25
+                                 Q5,15 15,10
+                                 Q25,5 35,8
+                                 Q45,3 55,6
+                                 Q65,2 75,7
+                                 Q85,4 95,10
+                                 Q110,8 115,20
+                                 Q120,30 110,38
+                                 Q100,48 85,45
+                                 Q70,50 55,46
+                                 Q40,50 25,45
+                                 Q10,48 5,38
+                                 Q0,28 10,25 Z"
+                              fill="none"
+                              stroke="#5D4037"
+                              strokeWidth="1.5"
+                            />
+                          </svg>
+                          <span className="relative z-10">Prove it</span>
+                        </motion.button>
+                        <motion.button
+                          onClick={onPublicAccess}
+                          className="text-text-dark/50 font-body text-sm hover:text-text-dark/70 transition-colors"
+                          whileHover={{ scale: 1.02 }}
+                          whileTap={{ scale: 0.98 }}
+                        >
+                          No, just visiting
+                        </motion.button>
+                      </div>
                     </motion.div>
                   ) : (
                     <motion.div

@@ -506,9 +506,10 @@ export function WorldMap({ onSelectLocation }: WorldMapProps) {
 interface LocationDetailProps {
   locationId: string;
   onBack: () => void;
+  isPublicMode?: boolean;
 }
 
-export function LocationDetail({ locationId, onBack }: LocationDetailProps) {
+export function LocationDetail({ locationId, onBack, isPublicMode = false }: LocationDetailProps) {
   const location = locations.find((l) => l.id === locationId);
   const [selectedPhoto, setSelectedPhoto] = useState<number | null>(null);
 
@@ -517,6 +518,41 @@ export function LocationDetail({ locationId, onBack }: LocationDetailProps) {
   }
 
   const hasPhotos = location.photos.length > 0;
+
+  // In public mode, show no.gif instead of photos
+  if (isPublicMode) {
+    return (
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: -20 }}
+        className="max-w-2xl mx-auto"
+      >
+        <button
+          onClick={onBack}
+          className="mb-6 text-text-dark/60 hover:text-text-dark transition-colors flex items-center gap-2"
+        >
+          <span>←</span>
+          <span>Back to map</span>
+        </button>
+
+        <div className="text-center mb-8">
+          <h2 className="text-3xl font-display text-text-dark">{location.name}</h2>
+        </div>
+
+        <div className="text-center">
+          <div className="max-w-sm mx-auto">
+            <img
+              src="/no.gif"
+              alt="Access denied"
+              className="w-full rounded-lg shadow-lg"
+            />
+            <p className="mt-4 text-text-dark/60 italic">Photos are for Dhanushikka only!</p>
+          </div>
+        </div>
+      </motion.div>
+    );
+  }
 
   return (
     <motion.div

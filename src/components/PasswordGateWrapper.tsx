@@ -3,23 +3,40 @@ import { PasswordGate } from './PasswordGate';
 import { MusicPlayer } from './MusicPlayer';
 
 const AUTH_KEY = 'valentines_authenticated';
+const PUBLIC_KEY = 'valentines_public';
+
+type AuthMode = 'checking' | 'gate' | 'authenticated' | 'public';
 
 export function PasswordGateWrapper({ children }: { children: React.ReactNode }) {
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
+  const [authMode, setAuthMode] = useState<AuthMode>('checking');
   const [startMusic, setStartMusic] = useState(false);
 
   useEffect(() => {
     const auth = localStorage.getItem(AUTH_KEY);
-    setIsAuthenticated(auth === 'true');
-    // If already authenticated, start music immediately
+    const publicAccess = localStorage.getItem(PUBLIC_KEY);
+
     if (auth === 'true') {
+      setAuthMode('authenticated');
       setStartMusic(true);
+    } else if (publicAccess === 'true') {
+      setAuthMode('public');
+      setStartMusic(true);
+    } else {
+      setAuthMode('gate');
     }
   }, []);
 
   const handleSuccess = () => {
     localStorage.setItem(AUTH_KEY, 'true');
-    setIsAuthenticated(true);
+    localStorage.removeItem(PUBLIC_KEY);
+    setAuthMode('authenticated');
+  };
+
+  const handlePublicAccess = () => {
+    localStorage.setItem(PUBLIC_KEY, 'true');
+    localStorage.removeItem(AUTH_KEY);
+    setStartMusic(true);
+    setAuthMode('public');
   };
 
   const handleOpeningStart = () => {
@@ -27,19 +44,24 @@ export function PasswordGateWrapper({ children }: { children: React.ReactNode })
   };
 
   // Show nothing while checking auth status
-  if (isAuthenticated === null) {
+  if (authMode === 'checking') {
     return null;
   }
 
-  if (!isAuthenticated) {
+  if (authMode === 'gate') {
     return (
       <>
-        <PasswordGate onSuccess={handleSuccess} onOpeningStart={handleOpeningStart} />
+        <PasswordGate
+          onSuccess={handleSuccess}
+          onPublicAccess={handlePublicAccess}
+          onOpeningStart={handleOpeningStart}
+        />
         {startMusic && <MusicPlayer />}
       </>
     );
   }
 
+  // HomePage reads isPublicMode from localStorage directly
   return (
     <>
       {startMusic && <MusicPlayer />}
